@@ -11,6 +11,11 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
+      path: 'members',
+      loadChildren: () => import('./members/members.module')
+        .then(m => m.MembersModule),
+    },
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     },

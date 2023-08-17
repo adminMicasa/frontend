@@ -17,6 +17,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
+    title: 'Members',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'All',
+        link: '/pages/members/all',
+      },
+    ],
+  },
+  {
     title: 'Layout',
     icon: 'layout-outline',
     children: [
