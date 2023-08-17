@@ -9,7 +9,7 @@ import { MembersService } from "../../services/members.service";
   templateUrl: "./all.component.html",
   styleUrls: ["./all.component.scss"],
 })
-export class AllComponent implements OnInit {
+export class AllComponent {
   settings = {
     mode:'external',
     add: {
@@ -52,9 +52,6 @@ export class AllComponent implements OnInit {
   constructor(private router: Router,private membersService:MembersService ) {
     const data = this.membersService.getAllMembers();
     this.source.load(data.data);
-  }
-
-  ngOnInit(): void {
   }
 
   onAdd(ev) {
