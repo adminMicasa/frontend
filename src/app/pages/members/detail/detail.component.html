@@ -1,1 +1,99 @@
-<p>detail works!</p>
+<nb-card>
+    <nb-card-header>Edit Member</nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="memberForm" (ngSubmit)="submitForm()" class="custom-form">
+        <div class="form-columns">
+          <div class="form-column col-lg-6 col-md-12">
+            <div class="form-group">
+              <label>Names:</label>
+              <input nbInput formControlName="names">
+            </div>
+            <div class="form-group">
+              <label>Lastnames:</label>
+              <input nbInput formControlName="lastnames">
+            </div>
+            <div class="form-group">
+              <label>Age:</label>
+              <input nbInput formControlName="age">
+            </div>
+            <div class="form-group">
+              <label>Phone:</label>
+              <input nbInput formControlName="phone">
+            </div>
+          </div>
+          <div class="form-column col-lg-6 col-md-12">
+            <div class="form-group">
+              <label>Email:</label>
+              <input nbInput formControlName="email">
+            </div>
+            <div class="form-group">
+              <label>Municipality:</label>
+              <input nbInput formControlName="municipality">
+            </div>
+            <div class="form-group">
+              <label>District:</label>
+              <input nbInput formControlName="district">
+            </div>
+            <div class="form-group">
+              <label>Occupation:</label>
+              <input nbInput formControlName="occupation">
+            </div>
+          </div>
+        </div>
+        <div class="form-columns">
+          <div class="form-column col-lg-6 col-md-12">
+            <div class="form-group">
+              <label>Volunteer:</label>
+              <nb-checkbox formControlName="volunteer"></nb-checkbox>
+            </div>
+            <div class="form-group">
+              <label>Social Network:</label>
+              <input nbInput formControlName="socialNetwork">
+            </div>
+          </div>
+          <div class="form-column col-lg-6 col-md-12">
+            <div class="form-group">
+              <label>How Find Us:</label>
+              <input nbInput formControlName="howFindUs">
+            </div>
+            <div class="form-group">
+              <label>Leader Discipleship:</label>
+              <input nbInput formControlName="leaderDiscipleship">
+            </div>
+          </div>
+        </div>
+        <button nbButton type="submit" [disabled]="!memberForm.valid">Save</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+  
+
+
+  <nb-card>
+    <nb-card-header>Edit Member</nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="memberForm" (ngSubmit)="submitForm()" class="custom-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Names:</label>
+            <input nbInput formControlName="names">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Lastnames:</label>
+            <input nbInput formControlName="lastnames">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Age:</label>
+            <input nbInput formControlName="age">
+          </div>
+        </div>
+        <!-- Repite para los otros campos -->
+        <button nbButton type="submit" [disabled]="!memberForm.valid">Save</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+  

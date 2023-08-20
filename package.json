@@ -27,11 +27,12 @@
     "docs:serve": "compodoc -p src/tsconfig.app.json -d docs -s",
     "prepush": "npm run lint:ci",
     "release:changelog": "npm run conventional-changelog -- -p angular -i CHANGELOG.md -s",
-    "postinstall": "ngcc --properties es2015 es5 browser module main --first-only --create-ivy-entry-points --tsconfig \"./src/tsconfig.app.json\""
+    "postinstall": "ngcc --properties es2015 es5 browser module main --first-only --create-ivy-entry-points --tsconfig \"./src/tsconfig.app.json\"",
+    "helper": "ng g class pages/models/member --type=model --skip-tests"
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",
-    "@angular/cdk": "12.1.0",
+    "@angular/cdk": "^14.0.0",
     "@angular/common": "^14.2.12",
     "@angular/compiler": "^14.2.12",
     "@angular/core": "^14.2.12",
@@ -88,6 +89,7 @@
     "@angular/language-service": "14.2.12",
     "@compodoc/compodoc": "1.0.1",
     "@fortawesome/fontawesome-free": "^5.2.0",
+    "@schematics/angular": "^14.2.10",
     "@types/d3-color": "1.0.5",
     "@types/jasmine": "~3.3.0",
     "@types/jasminewd2": "2.0.3",

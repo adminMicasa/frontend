@@ -9,7 +9,7 @@ import { MembersService } from "../../services/members.service";
   templateUrl: "./all.component.html",
   styleUrls: ["./all.component.scss"],
 })
-export class AllComponent {
+export class AllComponent implements OnInit {
   settings = {
     mode:'external',
     add: {
@@ -27,6 +27,7 @@ export class AllComponent {
       confirmDelete: true,
     },
     columns: {
+
       names: {
         title: "First Name",
         type: "string",
@@ -49,9 +50,13 @@ export class AllComponent {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private router: Router,private membersService:MembersService ) {
-    const data = this.membersService.getAllMembers();
-    this.source.load(data.data);
+  constructor(private router: Router,private membersService:MembersService ) {}
+
+  ngOnInit(): void {
+    this.membersService.getAllMembers().subscribe(membersData =>{
+      console.log(membersData)
+      this.source.load(membersData.data);
+    }) 
   }
 
   onAdd(ev) {

@@ -5,7 +5,11 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MembersComponent } from './members.component';
 import { MembersRoutingModule } from './members-routing.module';
 import { DetailComponent } from './detail/detail.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { FormsModule as ngFormsModule } from '@angular/forms';
+import { NbButtonModule, NbCheckboxModule } from '@nebular/theme';
+import { MembersService } from '../services/members.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,18 @@ import { DetailComponent } from './detail/detail.component';
   imports: [
     CommonModule,
     Ng2SmartTableModule,
-    MembersRoutingModule
+    MembersRoutingModule,
+    ReactiveFormsModule,
+    NbThemeModule.forRoot(),
+    NbLayoutModule,
+    NbCardModule,
+    ngFormsModule,
+    NbInputModule,
+    NbButtonModule,
+    NbCheckboxModule
+  ],
+  providers: [
+    MembersService
   ]
 })
 export class MembersModule { }
