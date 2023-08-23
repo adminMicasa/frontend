@@ -6,11 +6,10 @@ import { MembersComponent } from './members.component';
 import { MembersRoutingModule } from './members-routing.module';
 import { DetailComponent } from './detail/detail.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule } from '@nebular/theme';
 import { FormsModule as ngFormsModule } from '@angular/forms';
 import { NbButtonModule, NbCheckboxModule } from '@nebular/theme';
 import { MembersService } from '../services/members.service';
-
 @NgModule({
   declarations: [
     AllComponent,
@@ -28,7 +27,9 @@ import { MembersService } from '../services/members.service';
     ngFormsModule,
     NbInputModule,
     NbButtonModule,
-    NbCheckboxModule
+    NbIconModule,
+    NbCheckboxModule,
+    NbSelectModule,
   ],
   providers: [
     MembersService

@@ -1,16 +1,34 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AllMembersResponse } from "../models/member.model";
+import {
+  AllMembersResponse,
+  CreateMemberRequest,
+  Member,
+} from "../models/member.model";
 
 @Injectable({
   providedIn: "root",
 })
 export class MembersService {
   getData: any;
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getAllMembers() {
-    return this.http.get<AllMembersResponse>('http://localhost:3000/api/members?page=1&perPage=10');
+    return this.http.get<AllMembersResponse>(
+      "https://serverlessmicasamed.azurewebsites.net/api/members"
+    );
+  }
+
+  createMember(member: CreateMemberRequest) {
+    return this.http.post<Member>(
+      "https://serverlessmicasamed.azurewebsites.net/api/members",
+      member
+    );
+  }
+
+  deleteMember(id:number){
+    return this.http.delete<any>("https://serverlessmicasamed.azurewebsites.net/api/members/"+ id
+
+    )
   }
 }

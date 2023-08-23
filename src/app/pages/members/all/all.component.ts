@@ -37,7 +37,7 @@ export class AllComponent implements OnInit {
         type: "string",
       },
       phone: {
-        title: "Username",
+        title: "Phone",
         type: "string",
       },
       email: {
@@ -53,6 +53,10 @@ export class AllComponent implements OnInit {
   constructor(private router: Router,private membersService:MembersService ) {}
 
   ngOnInit(): void {
+   this.getAllMembers()
+  }
+
+  getAllMembers(){
     this.membersService.getAllMembers().subscribe(membersData =>{
       console.log(membersData)
       this.source.load(membersData.data);
@@ -62,6 +66,14 @@ export class AllComponent implements OnInit {
   onAdd(ev) {
     console.log("ADD->", ev);
     this.router.navigate(['pages/members/detail']);
+  }
+
+  onDelete(ev){
+    console.log("DEL->",ev.data.id)
+    this.membersService.deleteMember(ev.data.id).subscribe(deleted =>{
+      console.log(deleted)
+      this.getAllMembers()
+    })
   }
 
 }
