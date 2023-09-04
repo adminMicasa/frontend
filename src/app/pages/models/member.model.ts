@@ -1,3 +1,5 @@
+import { Metadata } from "./pagination.model";
+
 export class Member {
   id?: number;
   names: string;
@@ -17,7 +19,7 @@ export class Member {
 
 export class AllMembersResponse {
   data: Array<Member> = [];
-  total: number;
+  metadata: Metadata;
 }
 
 export class CreateMemberRequest {

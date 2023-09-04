@@ -5,4 +5,11 @@
  */
 export const environment = {
   production: true,
+  micasa: {
+    urlApi: 'https://serverlessmicasamed.azurewebsites.net/api',
+    endpointMunicipalities: '/selectors/municipalities',
+    endpointOccupations: '/selectors/occupations',
+    endpointSocialNetworks: '/selectors/social-networks',
+    endpointHowKnow: '/selectors/how-know',
+  }
 };

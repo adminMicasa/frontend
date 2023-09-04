@@ -6,7 +6,7 @@ import { MembersComponent } from './members.component';
 import { MembersRoutingModule } from './members-routing.module';
 import { DetailComponent } from './detail/detail.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule, NbAutocompleteModule, NbFormFieldModule } from '@nebular/theme';
 import { FormsModule as ngFormsModule } from '@angular/forms';
 import { NbButtonModule, NbCheckboxModule } from '@nebular/theme';
 import { MembersService } from '../services/members.service';
@@ -21,7 +21,6 @@ import { MembersService } from '../services/members.service';
     Ng2SmartTableModule,
     MembersRoutingModule,
     ReactiveFormsModule,
-    NbThemeModule.forRoot(),
     NbLayoutModule,
     NbCardModule,
     ngFormsModule,
@@ -30,6 +29,8 @@ import { MembersService } from '../services/members.service';
     NbIconModule,
     NbCheckboxModule,
     NbSelectModule,
+    NbAutocompleteModule,
+    NbFormFieldModule
   ],
   providers: [
     MembersService

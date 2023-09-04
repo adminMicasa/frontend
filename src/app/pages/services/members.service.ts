@@ -5,30 +5,34 @@ import {
   CreateMemberRequest,
   Member,
 } from "../models/member.model";
+import { environment } from "../../../environments/environment";
+import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class MembersService {
   getData: any;
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private errorHandlerService: ErrorHandlerService
+  ) { }
 
   getAllMembers() {
     return this.http.get<AllMembersResponse>(
-      "https://serverlessmicasamed.azurewebsites.net/api/members"
-    );
+      environment.micasa.urlApi + environment.micasa.endpointMembers
+    ).pipe(this.errorHandlerService.handleHttpError('getAllMembers'));
   }
 
   createMember(member: CreateMemberRequest) {
     return this.http.post<Member>(
-      "https://serverlessmicasamed.azurewebsites.net/api/members",
+      environment.micasa.urlApi,
       member
     );
   }
 
-  deleteMember(id:number){
-    return this.http.delete<any>("https://serverlessmicasamed.azurewebsites.net/api/members/"+ id
-
+  deleteMember(id: number) {
+    return this.http.delete<any>(environment.micasa.urlApi + '/' + id
     )
   }
 }
