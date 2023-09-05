@@ -1,5 +1,3 @@
-
-
 .form-inline [fullWidth] {
   flex: 1;
 }
@@ -12,7 +10,19 @@ nb-card.inline-form-card nb-card-body {
   padding-bottom: 0;
 }
 
+.custom {
+  display: flex;
+  align-items: center;
+}
 
+.m-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 20px;
+}
 
-
-
+nb-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}

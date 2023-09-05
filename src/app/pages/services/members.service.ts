@@ -1,12 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {
-  AllMembersResponse,
-  CreateMemberRequest,
-  Member,
-} from "../models/member.model";
+
 import { environment } from "../../../environments/environment";
 import { ErrorHandlerService } from "./error-handler.service";
+import { AllMembersResponseDto, MemberRequestDTO, MemberResponseDTO } from "../models/member.dto";
 
 @Injectable({
   providedIn: "root",
@@ -19,14 +16,14 @@ export class MembersService {
   ) { }
 
   getAllMembers() {
-    return this.http.get<AllMembersResponse>(
+    return this.http.get<AllMembersResponseDto>(
       environment.micasa.urlApi + environment.micasa.endpointMembers
     ).pipe(this.errorHandlerService.handleHttpError('getAllMembers'));
   }
 
-  createMember(member: CreateMemberRequest) {
-    return this.http.post<Member>(
-      environment.micasa.urlApi,
+  createMember(member: MemberRequestDTO) {
+    return this.http.post<MemberResponseDTO>(
+      environment.micasa.urlApi + environment.micasa.endpointMembers,
       member
     );
   }

@@ -26,8 +26,17 @@
         <div class="row">
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
-              <label for="sex" class="label">Sexo</label>
-              <input nbInput fullWidth id="age" formControlName="age" placeholder="sexo">
+              <div>
+                <label for="sex" class="label">Sexo</label>
+                <nb-radio-group id="sex" formControlName="sex" placeholder="sexo">
+                  <nb-radio [value]="'M'">
+                    Masculino
+                  </nb-radio>
+                  <nb-radio [value]="'F'">
+                    Femenino
+                  </nb-radio>
+                </nb-radio-group>
+              </div>
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
@@ -51,13 +60,13 @@
               <input type="text" nbInput fullWidth id="district" formControlName="district" placeholder="barrio">
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4">
-            <div class="form-group">
+          <div class="col-sm-12 col-lg-4 custom">
+            <div class="form-group ">
               <nb-checkbox fullWidth id="volunteer" formControlName="volunteer"
                 placeholder="voluntario">Voluntariado</nb-checkbox>
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4">
+          <div class="col-sm-12 col-lg-4 custom">
             <div class="form-group">
               <nb-checkbox fullWidth id="discipleship" formControlName="discipleship">Discipulado</nb-checkbox>
             </div>
@@ -65,8 +74,9 @@
         </div>
         <div class="row">
           <div class="col-sm-12 col-lg-4">
+            <label for="municipality" class="label">Municipio</label>
             <nb-form-field class="">
-              <input id="municipalityAutocomplete" formControlName="municipality" nbInput type="text"
+              <input id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth type="text"
                 placeholder="Municipios" [nbAutocomplete]="municipality_auto"
                 (click)="resetSelector('municipalityAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
@@ -82,8 +92,9 @@
             </nb-form-field>
           </div>
           <div class="col-sm-12 col-lg-4">
+            <label for="occupation" class="label">Ocupacion</label>
             <nb-form-field class="">
-              <input id="occupationAutocomplete" formControlName="occupation" nbInput type="text"
+              <input id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth type="text"
                 placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
                 (click)="resetSelector('occupationAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
@@ -99,8 +110,9 @@
             </nb-form-field>
           </div>
           <div class="col-sm-12 col-lg-4">
+            <label for="socialNetwork" class="label">Redes Sociales que usas</label>
             <nb-form-field class="">
-              <input id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput type="text"
+              <input id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput fullWidth type="text"
                 placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
                 (click)="resetSelector('socialNetworkAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
@@ -115,11 +127,34 @@
               </nb-autocomplete>
             </nb-form-field>
           </div>
-
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-lg-4">
+            <label for="howKnow" class="label">Como nos conociste</label>
+            <nb-form-field class="">
+              <input id="howKnowAutocomplete" formControlName="howKnow" nbInput fullWidth type="text"
+                placeholder="Como nos conociste" [nbAutocomplete]="howKnow_auto"
+                (click)="resetSelector('howKnowAutocomplete')" />
+              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                (click)="showElements('howKnowAutocomplete')" type="button">
+                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                </nb-icon>
+              </button>
+              <nb-autocomplete #howKnow_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                <nb-option *ngFor="let option of filteredHowKnow" [value]="option">
+                  {{ option.name }}
+                </nb-option>
+              </nb-autocomplete>
+            </nb-form-field>
+          </div>
 
         </div>
-
-        <button type="submit" nbButton status="danger">Crear</button>
       </form>
     </nb-card-body>
+    <nb-card-footer>
+      <div class="m-footer">
+        <button type="submit" nbButton status="primary" (click)="submit()">Crear</button>
+        <button type="submit" nbButton status="danger" (click)="cancel()">Cancelar</button>
+      </div>
+    </nb-card-footer>
   </nb-card>

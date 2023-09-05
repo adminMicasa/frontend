@@ -1,39 +1,28 @@
-import { Metadata } from "./pagination.model";
-
-export class Member {
-  id?: number;
+import { FormControl, FormGroup } from "@angular/forms";
+export interface MemberForm extends Member {
+}
+export interface Member {
   names: string;
   lastnames: string;
   age: string;
+  sex: string;
   phone: string;
   email: string;
-  municipality: string;
   district: string;
-  occupation: string;
   volunteer: boolean;
-  socialNetwork: string;
-  howFindUs: string;
   discipleship: boolean;
-  leaderDiscipleship: string;
+  municipality: number | Selector | null;
+  occupation: number | Selector | null;
+  socialNetwork: number | Selector | null;
+  howKnow: number | Selector | null;
+  discipleshipLeader: number | Selector | null;
 }
 
-export class AllMembersResponse {
-  data: Array<Member> = [];
-  metadata: Metadata;
+export interface Selector {
+  id: number;
+  name: string;
 }
 
-export class CreateMemberRequest {
-  names: string;
-  lastnames: string;
-  age: string;
-  phone: string;
-  email: string;
-  municipality: string;
-  district: string;
-  occupation: string;
-  volunteer: boolean;
-  socialNetwork: string;
-  howFindUs: string;
-  discipleship: boolean;
-  leaderDiscipleship: string;
-}
+export type ControlsOf<T extends Record<string, any>> = {
+  [K in keyof T]: T[K] extends Record<any, any> ? FormGroup<ControlsOf<T[K]>> : FormControl<T[K]>;
+};

@@ -1,20 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MembersService } from "../../services/members.service"; // Ajusta la ruta de tu servicio
-import { MembersModule } from "../members.module";
 import { SelectorsService } from "../../services/selectors.service";
 import { forkJoin } from "rxjs";
 import { Selector } from "../../models/selector.model";
 import { Observable, of } from 'rxjs';
 import { map, startWith } from "rxjs/operators";
+import { ControlsOf, MemberForm } from "../../models/member.model";
+import { MemberMapper, MemberRequestDTO } from "../../models/member.dto";
 @Component({
   selector: "ngx-detail",
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.scss"],
 })
 export class DetailComponent implements OnInit {
-  memberForm: FormGroup;
+  memberForm: FormGroup<ControlsOf<MemberForm>>;
 
   municipalities: Array<Selector> = [];
   filteredMunicipalities: Array<Selector> = [];
@@ -31,6 +32,7 @@ export class DetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private membersService: MembersService,
     private selectorsService: SelectorsService,
   ) {
@@ -43,11 +45,11 @@ export class DetailComponent implements OnInit {
         this.occupations = params[1].data;
         this.filteredOccupations = params[1].data;
 
-        this.socialNetworks = params[3].data;
-        this.filteredSocialNetworks = params[3].data;
+        this.socialNetworks = params[2].data;
+        this.filteredSocialNetworks = params[2].data;
 
-        this.howKnow = params[5].data;
-        this.filteredHowKnow = params[5].data;
+        this.howKnow = params[3].data;
+        this.filteredHowKnow = params[4].data;
 
         this.sexs = params[4].data;
         this.filteredSexs = params[4].data;
@@ -136,7 +138,7 @@ export class DetailComponent implements OnInit {
     if (source.includes('socialNetwork')) {
       return this.socialNetworks.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
     }
-    if (source.includes('howFind')) {
+    if (source.includes('howKnow')) {
       return this.howKnow.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
     }
     if (source.includes('discipleshipLeader')) {
@@ -182,7 +184,7 @@ export class DetailComponent implements OnInit {
       this.socialNetworks.unshift(element);
       this.filteredSocialNetworks = this.socialNetworks;
     }
-    if (selector.includes('howFind')) {
+    if (selector.includes('howKnow')) {
       if (!this.howKnowControl.value) {
         return;
       }
@@ -215,8 +217,13 @@ export class DetailComponent implements OnInit {
 
   submit() {
     console.log(this.memberForm.value);
-    this.membersService.createMember(this.memberForm.value).subscribe(data => {
+    const memberDTO: MemberRequestDTO = MemberMapper.toRequestDTO(this.memberForm.value as MemberForm);
+    this.membersService.createMember(memberDTO).subscribe(data => {
       console.log(data)
     })
+  }
+
+  cancel() {
+    this.router.navigate(['pages/members/all']);
   }
 }
