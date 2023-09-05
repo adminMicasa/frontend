@@ -11,7 +11,7 @@ import { MembersService } from "../../services/members.service";
 })
 export class AllComponent implements OnInit {
   settings = {
-    mode:'external',
+    mode: 'external',
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -50,27 +50,30 @@ export class AllComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private router: Router,private membersService:MembersService ) {}
+  constructor(private router: Router, private membersService: MembersService) { }
 
   ngOnInit(): void {
-   this.getAllMembers()
+    this.getAllMembers()
   }
 
-  getAllMembers(){
-    this.membersService.getAllMembers().subscribe(membersData =>{
+  getAllMembers() {
+    this.membersService.getAllMembers().subscribe(membersData => {
       console.log(membersData)
       this.source.load(membersData.data);
-    }) 
+    })
   }
 
   onAdd(ev) {
-    console.log("ADD->", ev);
-    this.router.navigate(['pages/members/detail']);
+    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'create' } });
   }
 
-  onDelete(ev){
-    console.log("DEL->",ev.data.id)
-    this.membersService.deleteMember(ev.data.id).subscribe(deleted =>{
+  onEdit(ev) {
+    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'edit', id: ev.id } });
+  }
+
+  onDelete(ev) {
+    console.log("DEL->", ev.data.id)
+    this.membersService.deleteMember(ev.data.id).subscribe(deleted => {
       console.log(deleted)
       this.getAllMembers()
     })
