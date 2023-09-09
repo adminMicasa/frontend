@@ -5,26 +5,34 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'E-commerce',
     icon: 'shopping-cart-outline',
     link: '/pages/dashboard',
-    home: true,
+    home: false,
+    data: {
+      active: false
+    }
   },
   {
     title: 'IoT Dashboard',
     icon: 'home-outline',
     link: '/pages/iot-dashboard',
+    data: {
+      active: false
+    }
   },
   {
     title: 'FEATURES',
     group: true,
+    data: {
+      active: false
+    }
   },
   {
-    title: 'Members',
+    title: 'Miembros',
     icon: 'layout-outline',
-    children: [
-      {
-        title: 'All',
-        link: '/pages/members/all',
-      },
-    ],
+    link: '/pages/members/all',
+    home: true,
+    data: {
+      active: true
+    }
   },
   {
     title: 'Layout',
@@ -52,6 +60,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/layout/tabs',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Forms',
@@ -74,6 +85,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/forms/datepicker',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'UI Features',
@@ -97,6 +111,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/ui-features/search-fields',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Modal & Overlays',
@@ -123,6 +140,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/modal-overlays/tooltip',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Extra Components',
@@ -153,6 +173,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/extra-components/chat',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Maps',
@@ -175,6 +198,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/maps/searchmap',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Charts',
@@ -193,6 +219,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/charts/d3',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Editors',
@@ -207,6 +236,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/editors/ckeditor',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Tables & Data',
@@ -221,6 +253,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/tables/tree-grid',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Miscellaneous',
@@ -231,6 +266,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/miscellaneous/404',
       },
     ],
+    data: {
+      active: false
+    }
   },
   {
     title: 'Auth',
@@ -253,5 +291,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
+    data: {
+      active: false
+    }
   },
 ];

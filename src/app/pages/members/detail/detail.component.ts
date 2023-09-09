@@ -7,7 +7,7 @@ import { forkJoin } from "rxjs";
 import { Selector } from "../../models/selector.model";
 import { Observable, of } from 'rxjs';
 import { map, startWith } from "rxjs/operators";
-import { ControlsOf, MemberForm } from "../../models/member.model";
+import { ControlsOf, Member, MemberForm } from "../../models/member.model";
 import { MemberMapper, MemberRequestDTO } from "../../models/member.dto";
 @Component({
   selector: "ngx-detail",
@@ -15,6 +15,9 @@ import { MemberMapper, MemberRequestDTO } from "../../models/member.dto";
   styleUrls: ["./detail.component.scss"],
 })
 export class DetailComponent implements OnInit {
+  doingSomething: boolean = false;
+  action: string = '';
+  memberId: string = '';
   memberForm: FormGroup<ControlsOf<MemberForm>>;
 
   municipalities: Array<Selector> = [];
@@ -27,6 +30,8 @@ export class DetailComponent implements OnInit {
   filteredHowKnow: Array<Selector> = [];
   sexs: Array<Selector> = [];
   filteredSexs: Array<Selector> = [];
+  members: Array<Member> = [];
+  filteredMembers: Array<Member> = [];
 
 
   constructor(
@@ -35,25 +40,30 @@ export class DetailComponent implements OnInit {
     private router: Router,
     private membersService: MembersService,
     private selectorsService: SelectorsService,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.getParams()
       .subscribe(params => {
+        this.doingSomething = false;
+
         console.log(params)
-        this.municipalities = params[0].data;
-        this.filteredMunicipalities = params[0].data;
+        this.municipalities = params[0].data as Selector[];
+        this.filteredMunicipalities = params[0].data as Selector[];
 
-        this.occupations = params[1].data;
-        this.filteredOccupations = params[1].data;
+        this.occupations = params[1].data as Selector[];
+        this.filteredOccupations = params[1].data as Selector[];
 
-        this.socialNetworks = params[2].data;
-        this.filteredSocialNetworks = params[2].data;
+        this.socialNetworks = params[2].data as Selector[];
+        this.filteredSocialNetworks = params[2].data as Selector[];
 
-        this.howKnow = params[3].data;
-        this.filteredHowKnow = params[4].data;
+        this.howKnow = params[3].data as Selector[];
+        this.filteredHowKnow = params[3].data as Selector[];
 
-        this.sexs = params[4].data;
-        this.filteredSexs = params[4].data;
+        this.sexs = params[4].data as Selector[];
+        this.filteredSexs = params[4].data as Selector[];
 
+        this.members = params[5].data as Member[];
+        this.filteredMembers = params[5].data as Member[];
       })
 
     this.memberForm = this.fb.group({
@@ -72,37 +82,63 @@ export class DetailComponent implements OnInit {
       howKnow: [null],
       discipleshipLeader: [null],
     });
-  }
 
-  ngOnInit(): void {
     this.municipaltiesControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'municipalities')),
       ).subscribe(filter => {
-        this.filteredMunicipalities = filter
+        this.filteredMunicipalities = filter as Selector[]
       });
     this.occupationControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'occupation')),
       ).subscribe(filter => {
-        this.filteredOccupations = filter
+        this.filteredOccupations = filter as Selector[]
       });
     this.socialNetworkControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'socialNetwork')),
       ).subscribe(filter => {
-        this.filteredSocialNetworks = filter
+        this.filteredSocialNetworks = filter as Selector[]
       });
     this.howKnowControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'howKnow')),
       ).subscribe(filter => {
-        this.filteredHowKnow = filter
+        this.filteredHowKnow = filter as Selector[]
       });
+    this.discipleshipLeaderControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(filterString => this.filter(filterString, 'discipleshipLeader')),
+      ).subscribe(filter => {
+        this.filteredMembers = filter as Member[]
+      });
+
+  }
+
+  ngOnInit(): void {
+    this.doingSomething = true;
+    this.activatedRoute.queryParams.pipe().subscribe(
+      queryParams => {
+        this.memberId = queryParams.id;
+        this.action = queryParams.action;
+
+        if (!this.action) {
+          this.router.navigate(['pages/members']);
+          return;
+        }
+        if (this.action == 'edit' && this.memberId) {
+          this.setMemberForm();
+
+        } else if (this.action == 'create') {
+        }
+      }
+    )
 
   }
 
@@ -122,10 +158,35 @@ export class DetailComponent implements OnInit {
     return this.memberForm.get('discipleshipLeader') as FormControl;
   }
 
-  private filter(value: string | Selector, source: string): Selector[] {
+
+  setMemberForm() {
+    this.membersService.getMember(this.memberId).subscribe(member => {
+      this.memberForm.patchValue({
+        names: member.names,
+        lastnames: member.lastnames,
+        age: member.age,
+        sex: member.sex,
+        phone: member.phone,
+        email: member.email,
+        district: member.district,
+        volunteer: member.volunteer,
+        discipleship: member.discipleship,
+        municipality: member.municipality,
+        occupation: member.occupation,
+        socialNetwork: member.socialNetwork,
+        howKnow: member.howKnow,
+        discipleshipLeader: member.discipleshipLeader
+      })
+    })
+
+  }
+
+  filter(value: string | Selector | Member, source: string): Selector[] | Member[] {
     let filterValue = '';
-    if (typeof value == 'object' && value.name) {
-      filterValue = value?.name?.toLowerCase();
+    if (typeof value == 'object' && (value as Selector)?.name) {
+      filterValue = (value as Selector)?.name?.toLowerCase();
+    } else if (typeof value == 'object' && (value as Member)?.names) {
+      filterValue = (value as Member)?.names?.toLowerCase();
     } else if (typeof value == 'string') {
       filterValue = value?.toLowerCase();
     }
@@ -142,13 +203,15 @@ export class DetailComponent implements OnInit {
       return this.howKnow.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
     }
     if (source.includes('discipleshipLeader')) {
-      return this.municipalities.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
+      return this.members.filter(optionValue => optionValue.names.toLowerCase().includes(filterValue));
     }
   }
 
-  viewHandle(value: Selector | string) {
-    if (typeof value == 'object' && value.name) {
-      return value.name;
+  viewHandle(value: Selector | Member | string) {
+    if (typeof value == 'object' && (value as Selector).name) {
+      return (value as Selector).name;
+    } else if (typeof value == 'object' && (value as Member).names) {
+      return (value as Member).names;
     }
     return value;
   }
@@ -194,6 +257,16 @@ export class DetailComponent implements OnInit {
       this.howKnow.unshift(element);
       this.filteredHowKnow = this.howKnow;
     }
+    if (selector.includes('discipleshipLeader')) {
+      if (!this.discipleshipLeaderControl.value) {
+        return;
+      }
+      let index = this.members.findIndex(data => data.id == this.discipleshipLeaderControl.value.id);
+      let element = this.members.splice(index, 1)[0];
+      this.members.sort((a, b) => a.names.localeCompare(b.names));
+      this.members.unshift(element);
+      this.filteredMembers = this.members;
+    }
   }
 
   getParams() {
@@ -203,6 +276,7 @@ export class DetailComponent implements OnInit {
       this.selectorsService.getAllSocialNetworks(),
       this.selectorsService.getAllHowKnow(),
       this.selectorsService.getAllSexs(),
+      this.membersService.getAllMembers({ page: 1, perPage: -1 })
     ]
     return forkJoin(params);
   }

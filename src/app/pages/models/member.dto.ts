@@ -1,30 +1,11 @@
 import { Selector } from "./selector.model";
 import { Metadata } from "./pagination.model";
-import { MemberForm } from "./member.model";
+import { Member, MemberForm } from "./member.model";
 
 export class AllMembersResponseDto {
-    data: Array<MemberResponseDTO> = [];
+    data: Array<Member> = [];
     metadata: Metadata;
 }
-
-export class MemberResponseDTO {
-    id?: number;
-    names: string;
-    lastnames: string;
-    age: string;
-    sex: string;
-    phone: string;
-    email: string;
-    district: string;
-    volunteer: boolean;
-    discipleship: boolean;
-    municipality: number | Selector | null;
-    occupationId: number | Selector | null;
-    socialNetwork: number | Selector | null;
-    howKnow: number | Selector | null;
-    leaderDiscipleship: number | Selector | null;
-}
-
 export class MemberRequestDTO {
     id?: number;
     names: string;

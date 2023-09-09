@@ -14,5 +14,5 @@ import { MENU_ITEMS } from './pages-menu';
 })
 export class PagesComponent {
 
-  menu = MENU_ITEMS;
+  menu = MENU_ITEMS.filter(menu => menu?.data?.active == true);
 }

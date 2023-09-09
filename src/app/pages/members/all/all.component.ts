@@ -12,6 +12,9 @@ import { MembersService } from "../../services/members.service";
 export class AllComponent implements OnInit {
   settings = {
     mode: 'external',
+    actions: {
+      columnTitle: 'Acciones'
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -29,19 +32,19 @@ export class AllComponent implements OnInit {
     columns: {
 
       names: {
-        title: "First Name",
+        title: "Nombres",
         type: "string",
       },
       lastnames: {
-        title: "Last Name",
+        title: "Apellidos",
         type: "string",
       },
       phone: {
-        title: "Phone",
+        title: "Telefono",
         type: "string",
       },
       email: {
-        title: "E-mail",
+        title: "Correo",
         type: "string",
       },
 
@@ -57,21 +60,21 @@ export class AllComponent implements OnInit {
   }
 
   getAllMembers() {
-    this.membersService.getAllMembers().subscribe(membersData => {
+    this.membersService.getAllMembers({ page: 1, perPage: -1 }).subscribe(membersData => {
       console.log(membersData)
       this.source.load(membersData.data);
     })
   }
 
-  onAdd(ev) {
+  onAdd(ev: any) {
     this.router.navigate(['pages/members/detail'], { queryParams: { action: 'create' } });
   }
 
-  onEdit(ev) {
-    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'edit', id: ev.id } });
+  onEdit(ev: any) {
+    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'edit', id: ev.data.id } });
   }
 
-  onDelete(ev) {
+  onDelete(ev: any) {
     console.log("DEL->", ev.data.id)
     this.membersService.deleteMember(ev.data.id).subscribe(deleted => {
       console.log(deleted)

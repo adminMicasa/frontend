@@ -1,5 +1,5 @@
 <div class="col-12">
-  <nb-card>
+  <nb-card [nbSpinner]="doingSomething" nbSpinnerStatus="primary">
     <nb-card-header>Miembro</nb-card-header>
     <nb-card-body>
       <form [formGroup]="memberForm" (ngSubmit)="submit()">
@@ -7,19 +7,22 @@
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="names" class="label">Nombres</label>
-              <input autocomplete="off" type="text" nbInput fullWidth id="names" formControlName="names" placeholder="nombres">
+              <input autocomplete="off" type="text" nbInput fullWidth id="names" formControlName="names"
+                placeholder="nombres">
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="lastnames" class="label">Apellidos</label>
-              <input autocomplete="off" type="text" nbInput fullWidth id="lastnames" formControlName="lastnames" placeholder="apellidos">
+              <input autocomplete="off" type="text" nbInput fullWidth id="lastnames" formControlName="lastnames"
+                placeholder="apellidos">
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="age" class="label">Edad</label>
-              <input autocomplete="off" type="number" nbInput fullWidth id="age" formControlName="age" placeholder="años">
+              <input autocomplete="off" type="number" nbInput fullWidth id="age" formControlName="age"
+                placeholder="años">
             </div>
           </div>
         </div>
@@ -42,13 +45,15 @@
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="phone" class="label">Celular</label>
-              <input autocomplete="off" type="phone" nbInput fullWidth id="phone" formControlName="phone" placeholder="celular">
+              <input autocomplete="off" type="phone" nbInput fullWidth id="phone" formControlName="phone"
+                placeholder="celular">
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="email" class="label">Correo electronico</label>
-              <input autocomplete="off" type="email" nbInput fullWidth id="email" formControlName="email" placeholder="correo">
+              <input autocomplete="off" type="email" nbInput fullWidth id="email" formControlName="email"
+                placeholder="correo">
             </div>
           </div>
         </div>
@@ -57,7 +62,8 @@
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="district" class="label">Barrio</label>
-              <input autocomplete="off" type="text" nbInput fullWidth id="district" formControlName="district" placeholder="barrio">
+              <input autocomplete="off" type="text" nbInput fullWidth id="district" formControlName="district"
+                placeholder="barrio">
             </div>
           </div>
           <div class="col-sm-12 col-lg-4 custom">
@@ -76,8 +82,8 @@
           <div class="col-sm-12 col-lg-4">
             <label for="municipality" class="label">Municipio</label>
             <nb-form-field class="">
-              <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth type="text"
-                placeholder="Municipios" [nbAutocomplete]="municipality_auto"
+              <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth
+                type="text" placeholder="Municipios" [nbAutocomplete]="municipality_auto"
                 (click)="resetSelector('municipalityAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('municipalityAutocomplete')" type="button">
@@ -94,8 +100,8 @@
           <div class="col-sm-12 col-lg-4">
             <label for="occupation" class="label">Ocupacion</label>
             <nb-form-field class="">
-              <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth type="text"
-                placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
+              <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth
+                type="text" placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
                 (click)="resetSelector('occupationAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('occupationAutocomplete')" type="button">
@@ -112,8 +118,8 @@
           <div class="col-sm-12 col-lg-4">
             <label for="socialNetwork" class="label">Redes Sociales que usas</label>
             <nb-form-field class="">
-              <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput fullWidth type="text"
-                placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
+              <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput fullWidth
+                type="text" placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
                 (click)="resetSelector('socialNetworkAutocomplete')" />
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('socialNetworkAutocomplete')" type="button">
@@ -143,6 +149,24 @@
               <nb-autocomplete #howKnow_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
                 <nb-option *ngFor="let option of filteredHowKnow" [value]="option">
                   {{ option.name }}
+                </nb-option>
+              </nb-autocomplete>
+            </nb-form-field>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <label for="discipleshipLeader" class="label">Lider de discipulado</label>
+            <nb-form-field class="">
+              <input autocomplete="off" id="discipleshipLeaderAutocomplete" formControlName="discipleshipLeader" nbInput
+                fullWidth type="text" placeholder="Lider de discipulado" [nbAutocomplete]="discipleshipLeader_auto"
+                (click)="resetSelector('discipleshipLeaderAutocomplete')" />
+              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                (click)="showElements('discipleshipLeaderAutocomplete')" type="button">
+                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                </nb-icon>
+              </button>
+              <nb-autocomplete #discipleshipLeader_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                <nb-option *ngFor="let option of filteredMembers" [value]="option">
+                  {{ option.names }}
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>

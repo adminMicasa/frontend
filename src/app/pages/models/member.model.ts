@@ -1,7 +1,9 @@
 import { FormControl, FormGroup } from "@angular/forms";
+import { Selector } from "./selector.model";
 export interface MemberForm extends Member {
 }
 export interface Member {
+  id?: number | string;
   names: string;
   lastnames: string;
   age: string;
@@ -15,13 +17,10 @@ export interface Member {
   occupation: number | Selector | null;
   socialNetwork: number | Selector | null;
   howKnow: number | Selector | null;
-  discipleshipLeader: number | Selector | null;
+  discipleshipLeader: number | Member | null;
 }
 
-export interface Selector {
-  id: number;
-  name: string;
-}
+
 
 export type ControlsOf<T extends Record<string, any>> = {
   [K in keyof T]: T[K] extends Record<any, any> ? FormGroup<ControlsOf<T[K]>> : FormControl<T[K]>;
