@@ -8,21 +8,30 @@
             <div class="form-group">
               <label for="names" class="label">Nombres</label>
               <input autocomplete="off" type="text" nbInput fullWidth id="names" formControlName="names"
-                placeholder="nombres">
+                placeholder="nombres" [status]="memberFormControlIsValid('names') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('names')">
+                Requerido!
+              </p>
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="lastnames" class="label">Apellidos</label>
               <input autocomplete="off" type="text" nbInput fullWidth id="lastnames" formControlName="lastnames"
-                placeholder="apellidos">
+                placeholder="apellidos" [status]="memberFormControlIsValid('lastnames') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('lastnames')">
+                Requerido!
+              </p>
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="age" class="label">Edad</label>
               <input autocomplete="off" type="number" nbInput fullWidth id="age" formControlName="age"
-                placeholder="años">
+                placeholder="años" [status]="memberFormControlIsValid('age') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('age')">
+                Requerido!
+              </p>
             </div>
           </div>
         </div>
@@ -46,14 +55,20 @@
             <div class="form-group">
               <label for="phone" class="label">Celular</label>
               <input autocomplete="off" type="phone" nbInput fullWidth id="phone" formControlName="phone"
-                placeholder="celular">
+                placeholder="celular" [status]="memberFormControlIsValid('phone') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('phone')">
+                Requerido!
+              </p>
             </div>
           </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="email" class="label">Correo electronico</label>
               <input autocomplete="off" type="email" nbInput fullWidth id="email" formControlName="email"
-                placeholder="correo">
+                placeholder="correo" [status]="memberFormControlIsValid('email') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('email')">
+                Requerido!
+              </p>
             </div>
           </div>
         </div>
@@ -63,7 +78,10 @@
             <div class="form-group">
               <label for="district" class="label">Barrio</label>
               <input autocomplete="off" type="text" nbInput fullWidth id="district" formControlName="district"
-                placeholder="barrio">
+                placeholder="barrio" [status]="memberFormControlIsValid('district') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('district')">
+                Requerido!
+              </p>
             </div>
           </div>
           <div class="col-sm-12 col-lg-4 custom">
@@ -84,7 +102,8 @@
             <nb-form-field class="">
               <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth
                 type="text" placeholder="Municipios" [nbAutocomplete]="municipality_auto"
-                (click)="resetSelector('municipalityAutocomplete')" />
+                (click)="resetSelector('municipalityAutocomplete')"
+                [status]="memberFormControlIsValid('municipality') ? 'danger' : 'basic'">
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('municipalityAutocomplete')" type="button">
                 <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
@@ -96,13 +115,17 @@
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>
+            <p class="text-danger caption" *ngIf="memberFormControlIsValid('municipality')">
+              Requerido!
+            </p>
           </div>
           <div class="col-sm-12 col-lg-4">
             <label for="occupation" class="label">Ocupacion</label>
             <nb-form-field class="">
               <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth
                 type="text" placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
-                (click)="resetSelector('occupationAutocomplete')" />
+                (click)="resetSelector('occupationAutocomplete')"
+                [status]="memberFormControlIsValid('occupation') ? 'danger' : 'basic'">
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('occupationAutocomplete')" type="button">
                 <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
@@ -114,13 +137,17 @@
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>
+            <p class="text-danger caption" *ngIf="memberFormControlIsValid('occupation')">
+              Requerido!
+            </p>
           </div>
           <div class="col-sm-12 col-lg-4">
             <label for="socialNetwork" class="label">Redes Sociales que usas</label>
             <nb-form-field class="">
               <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput fullWidth
                 type="text" placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
-                (click)="resetSelector('socialNetworkAutocomplete')" />
+                (click)="resetSelector('socialNetworkAutocomplete')"
+                [status]="memberFormControlIsValid('socialNetwork') ? 'danger' : 'basic'">
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('socialNetworkAutocomplete')" type="button">
                 <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
@@ -132,6 +159,9 @@
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>
+            <p class="text-danger caption" *ngIf="memberFormControlIsValid('socialNetwork')">
+              Requerido!
+            </p>
           </div>
         </div>
         <div class="row">
@@ -140,7 +170,8 @@
             <nb-form-field class="">
               <input autocomplete="off" id="howKnowAutocomplete" formControlName="howKnow" nbInput fullWidth type="text"
                 placeholder="Como nos conociste" [nbAutocomplete]="howKnow_auto"
-                (click)="resetSelector('howKnowAutocomplete')" />
+                (click)="resetSelector('howKnowAutocomplete')"
+                [status]="memberFormControlIsValid('howKnow') ? 'danger' : 'basic'">
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('howKnowAutocomplete')" type="button">
                 <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
@@ -152,13 +183,17 @@
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>
+            <p class="text-danger caption" *ngIf="memberFormControlIsValid('howKnow')">
+              Requerido!
+            </p>
           </div>
           <div class="col-sm-12 col-lg-4">
             <label for="discipleshipLeader" class="label">Lider de discipulado</label>
             <nb-form-field class="">
               <input autocomplete="off" id="discipleshipLeaderAutocomplete" formControlName="discipleshipLeader" nbInput
                 fullWidth type="text" placeholder="Lider de discipulado" [nbAutocomplete]="discipleshipLeader_auto"
-                (click)="resetSelector('discipleshipLeaderAutocomplete')" />
+                (click)="resetSelector('discipleshipLeaderAutocomplete')"
+                [status]="memberFormControlIsValid('discipleshipLeader') ? 'danger' : 'basic'">
               <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
                 (click)="showElements('discipleshipLeaderAutocomplete')" type="button">
                 <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
@@ -166,10 +201,13 @@
               </button>
               <nb-autocomplete #discipleshipLeader_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
                 <nb-option *ngFor="let option of filteredMembers" [value]="option">
-                  {{ option.names }}
+                  {{ option.names + ' ' + option.lastnames }}
                 </nb-option>
               </nb-autocomplete>
             </nb-form-field>
+            <p class="text-danger caption" *ngIf="memberFormControlIsValid('discipleshipLeader')">
+              Requerido!
+            </p>
           </div>
 
         </div>
@@ -177,8 +215,67 @@
     </nb-card-body>
     <nb-card-footer>
       <div class="m-footer">
-        <button type="submit" nbButton status="primary" (click)="submit()">Crear</button>
+        <button type="submit" nbButton status="primary" (click)="submit()"
+          [disabled]="!memberForm.valid">{{getSumitTitle()}}</button>
         <button type="submit" nbButton status="danger" (click)="cancel()">Cancelar</button>
       </div>
     </nb-card-footer>
   </nb-card>
+
+
+
+  <ng-template #dialog let-data let-ref="_dialogRef">
+    <div class="dialog">
+      <nb-card>
+        <nb-card-header>{{ data.title}}</nb-card-header>
+        <nb-card-body>
+          <div class="row" style="height: 16rem !important;">
+            <div class="col-12">
+              <div *ngIf="apiSuccess" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100% " src="../../assets/micasa/success.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Guardado con exito!</h6>
+                </div>
+              </div>
+              <div *ngIf="!apiSuccess && !apiError" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100%" src="../../assets/micasa/loading.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Guardando...</h6>
+                </div>
+              </div>
+              <div *ngIf="apiError" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100%" src="../../assets/micasa/error.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Algo salio mal intentalo de nuevo!</h6>
+                  <p> {{ apiErrorMessage }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </nb-card-body>
+        <nb-card-footer>
+          <div *ngIf="apiSuccess;" style="text-align: center;">
+            <button class="space" nbButton (click)="goList()">Volver a la lista</button>
+            <button class="space" nbButton (click)="seeItem()">Ver Item</button>
+          </div>
+          <div *ngIf="apiError;" style="text-align: center;">
+            <button class="space" nbButton (click)="goList()">Volver a la lista</button>
+            <button class="space" nbButton (click)="closeLoading()">Reintentar</button>
+          </div>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+  </ng-template>

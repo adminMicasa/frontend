@@ -1,18 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Optional, TemplateRef, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { MembersService } from "../../services/members.service"; // Ajusta la ruta de tu servicio
 import { SelectorsService } from "../../services/selectors.service";
 import { forkJoin } from "rxjs";
 import { Selector } from "../../models/selector.model";
-import { Observable, of } from 'rxjs';
 import { map, startWith } from "rxjs/operators";
 import { ControlsOf, Member, MemberForm } from "../../models/member.model";
 import { MemberMapper, MemberRequestDTO } from "../../models/member.dto";
+import { NbDialogRef, NbDialogService, NbToastrService } from "@nebular/theme";
 @Component({
   selector: "ngx-detail",
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.scss"],
+  queries: {
+    dialog: new ViewChild("dialog")
+  },
 })
 export class DetailComponent implements OnInit {
   doingSomething: boolean = false;
@@ -33,14 +36,20 @@ export class DetailComponent implements OnInit {
   members: Array<Member> = [];
   filteredMembers: Array<Member> = [];
 
+  dialog: TemplateRef<any>;
+  apiError: boolean = false;
+  apiSuccess: boolean = false;
+  apiErrorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private membersService: MembersService,
     private selectorsService: SelectorsService,
     private activatedRoute: ActivatedRoute,
+    private _toastrService: NbToastrService,
+    private _dialogService: NbDialogService,
+    @Optional() protected _dialogRef: NbDialogRef<any>,
   ) {
     this.getParams()
       .subscribe(params => {
@@ -74,13 +83,13 @@ export class DetailComponent implements OnInit {
       phone: ["", Validators.required],
       email: ["", Validators.required],
       district: ["", Validators.required],
-      volunteer: [true],
-      discipleship: [true],
-      municipality: [null],
-      occupation: [null],
-      socialNetwork: [null],
-      howKnow: [null],
-      discipleshipLeader: [null],
+      volunteer: [false, Validators.required],
+      discipleship: [false, Validators.required],
+      municipality: new FormControl<number | Selector | null>(null, Validators.required),
+      occupation: new FormControl<number | Selector | null>(null, Validators.required),
+      socialNetwork: new FormControl<number | Selector | null>(null, Validators.required),
+      howKnow: new FormControl<number | Selector | null>(null, Validators.required),
+      discipleshipLeader: new FormControl<number | Member | null>(null),
     });
 
     this.municipaltiesControl.valueChanges
@@ -139,7 +148,6 @@ export class DetailComponent implements OnInit {
         }
       }
     )
-
   }
 
   get municipaltiesControl() {
@@ -158,7 +166,9 @@ export class DetailComponent implements OnInit {
     return this.memberForm.get('discipleshipLeader') as FormControl;
   }
 
-
+  memberFormControlIsValid(controlName: string) {
+    return this.memberForm.get(controlName).invalid && (this.memberForm.get(controlName).dirty || this.memberForm.get(controlName).touched)
+  }
   setMemberForm() {
     this.membersService.getMember(this.memberId).subscribe(member => {
       this.memberForm.patchValue({
@@ -178,7 +188,6 @@ export class DetailComponent implements OnInit {
         discipleshipLeader: member.discipleshipLeader
       })
     })
-
   }
 
   filter(value: string | Selector | Member, source: string): Selector[] | Member[] {
@@ -203,7 +212,7 @@ export class DetailComponent implements OnInit {
       return this.howKnow.filter(optionValue => optionValue.name.toLowerCase().includes(filterValue));
     }
     if (source.includes('discipleshipLeader')) {
-      return this.members.filter(optionValue => optionValue.names.toLowerCase().includes(filterValue));
+      return this.members.filter(optionValue => optionValue.names.toLowerCase().includes(filterValue) || optionValue.lastnames.toLowerCase().includes(filterValue));
     }
   }
 
@@ -211,7 +220,7 @@ export class DetailComponent implements OnInit {
     if (typeof value == 'object' && (value as Selector).name) {
       return (value as Selector).name;
     } else if (typeof value == 'object' && (value as Member).names) {
-      return (value as Member).names;
+      return (value as Member).names + ' ' + (value as Member).lastnames;
     }
     return value;
   }
@@ -289,15 +298,71 @@ export class DetailComponent implements OnInit {
     }
   }
 
+  getSumitTitle() {
+    return this.action == 'edit' ? 'Actualizar' : 'Crear';
+  }
+
   submit() {
-    console.log(this.memberForm.value);
+    this.apiSuccess = false;
+    this.apiError = false;
+    this.apiErrorMessage = '';
+    this.openLoading(this.dialog);
     const memberDTO: MemberRequestDTO = MemberMapper.toRequestDTO(this.memberForm.value as MemberForm);
-    this.membersService.createMember(memberDTO).subscribe(data => {
-      console.log(data)
-    })
+
+    if (this.action == 'edit') {
+      this.membersService.updateMember(this.memberId, memberDTO).subscribe(data => {
+        this.apiSuccess = true;
+      }, error => {
+        this.apiError = true;
+        this.apiErrorMessage = error.message;
+      })
+    } else {
+      this.membersService.createMember(memberDTO).subscribe(data => {
+        this.apiSuccess = true;
+      }, error => {
+        this.apiError = true;
+        this.apiErrorMessage = error.message;
+      })
+    }
+
   }
 
   cancel() {
     this.router.navigate(['pages/members/all']);
+  }
+
+  showToast(message, position, status) {
+    this._toastrService.show(
+      status || 'Success',
+      `Resultado: ${message}`,
+      { position, status });
+  }
+
+  openLoading(dialog: TemplateRef<any>) {
+    this._dialogRef = this._dialogService.open(
+      dialog, {
+      closeOnBackdropClick: false, closeOnEsc: false, context: { title: 'Ejecutando acción' }
+    });
+  }
+
+  closeLoading() {
+    this._dialogRef.close();
+  }
+
+  goList() {
+    this.router.navigate([`pages/members/all`]);
+    this.closeLoading();
+  }
+
+  seeItem() {
+    this.router.navigate(
+      [`pages/members/detail`],
+      {
+        queryParams: {
+          id: this.memberId,
+          action: 'edit'
+        }
+      });
+    this.closeLoading();
   }
 }

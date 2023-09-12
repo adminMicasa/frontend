@@ -2,10 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { environment } from "../../../environments/environment";
-import { ErrorHandlerService } from "./error-handler.service";
 import { AllMembersResponseDto, MemberRequestDTO } from "../models/member.dto";
 import { pageFilter } from "../models/pagination.model";
 import { Member } from "../models/member.model";
+import { retry } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -13,13 +13,14 @@ import { Member } from "../models/member.model";
 export class MembersService {
   constructor(
     private http: HttpClient,
-    private errorHandlerService: ErrorHandlerService
   ) { }
 
   getMember(id: string | number) {
     return this.http.get<Member>(
       environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id,
-    ).pipe(this.errorHandlerService.handleHttpError('getMember'));
+    ).pipe(
+      retry(1)
+    );
   }
 
   getAllMembers(pagination: pageFilter) {
@@ -30,7 +31,9 @@ export class MembersService {
           ...pagination
         }
       }
-    ).pipe(this.errorHandlerService.handleHttpError('getAllMembers'));
+    ).pipe(
+      retry(1)
+    );
   }
 
   createMember(member: MemberRequestDTO) {
@@ -40,8 +43,14 @@ export class MembersService {
     )
   }
 
-  deleteMember(id: number) {
-    return this.http.delete<any>(environment.micasa.urlApi + '/' + id
+  updateMember(memberId: string | number, member: MemberRequestDTO) {
+    return this.http.put<Member>(
+      environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + memberId,
+      member
     )
+  }
+  deleteMember(id: number) {
+    return this.http.delete<any>(environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id
+    );
   }
 }

@@ -3,6 +3,7 @@ import { LocalDataSource } from "ng2-smart-table";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { Router } from "@angular/router";
 import { MembersService } from "../../services/members.service";
+import { NbToastrService } from "@nebular/theme";
 
 @Component({
   selector: "ngx-all",
@@ -30,7 +31,6 @@ export class AllComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-
       names: {
         title: "Nombres",
         type: "string",
@@ -53,7 +53,11 @@ export class AllComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private router: Router, private membersService: MembersService) { }
+  constructor(
+    private router: Router,
+    private membersService: MembersService,
+    private _toastrService: NbToastrService,
+  ) { }
 
   ngOnInit(): void {
     this.getAllMembers()
@@ -75,11 +79,21 @@ export class AllComponent implements OnInit {
   }
 
   onDelete(ev: any) {
+    if (!window.confirm(`Esta seguro de querer eliminar el miembro: ${ev.data.names} ?`)) {
+      return;
+    }
     console.log("DEL->", ev.data.id)
     this.membersService.deleteMember(ev.data.id).subscribe(deleted => {
-      console.log(deleted)
-      this.getAllMembers()
+      this.showToast(`Acción ejecutada!`, 'top-right', 'success');
+      this.getAllMembers();
     })
+  }
+
+  showToast(message, position, status) {
+    this._toastrService.show(
+      status || 'Success',
+      `Resultado: ${message}`,
+      { position, status });
   }
 
 }

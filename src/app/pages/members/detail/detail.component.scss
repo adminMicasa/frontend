@@ -26,3 +26,27 @@ nb-radio-group {
   display: flex;
   flex-wrap: wrap;
 }
+
+.dialog {
+  width: 750px;
+  height: 100%;
+}
+
+.space {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.nbButton {
+  margin: 0 5px;
+}
+
+.upload-center {
+  align-content: center;
+  align-items: center;
+  display: grid;
+}
