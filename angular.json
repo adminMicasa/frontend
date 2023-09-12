@@ -138,7 +138,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/routes.json",
+              "src/staticwebapp.config.json",
               "src/favicon.ico",
               "src/favicon.png",
               {
