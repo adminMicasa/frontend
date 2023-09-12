@@ -318,6 +318,7 @@ export class DetailComponent implements OnInit {
       })
     } else {
       this.membersService.createMember(memberDTO).subscribe(data => {
+        this.memberId = data.id as string;
         this.apiSuccess = true;
       }, error => {
         this.apiError = true;
