@@ -138,6 +138,7 @@
             ],
             "assets": [
               "src/assets",
+              "src/routes.json",
               "src/favicon.ico",
               "src/favicon.png",
               {
