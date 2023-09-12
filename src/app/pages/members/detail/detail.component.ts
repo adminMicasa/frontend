@@ -314,14 +314,14 @@ export class DetailComponent implements OnInit {
         this.apiSuccess = true;
       }, error => {
         this.apiError = true;
-        this.apiErrorMessage = error.message;
+        this.apiErrorMessage = error;
       })
     } else {
       this.membersService.createMember(memberDTO).subscribe(data => {
         this.apiSuccess = true;
       }, error => {
         this.apiError = true;
-        this.apiErrorMessage = error.message;
+        this.apiErrorMessage = error;
       })
     }
 
