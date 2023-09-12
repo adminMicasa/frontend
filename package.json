@@ -2,6 +2,9 @@
   "name": "ngx-admin",
   "version": "10.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "14.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/akveo/ngx-admin.git"
@@ -13,7 +16,7 @@
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration=production",
     "build:prod": "npm run build -- --configuration production --aot",
     "test": "ng test",
     "test:coverage": "rimraf coverage && npm run test -- --code-coverage",
@@ -43,11 +46,13 @@
     "@angular/router": "^14.2.12",
     "@asymmetrik/ngx-leaflet": "3.0.1",
     "@lottiefiles/lottie-player": "^2.0.2",
+    "@babel/core": "^7.22.17",
     "@nebular/auth": "10.0.0",
     "@nebular/eva-icons": "10.0.0",
     "@nebular/security": "10.0.0",
     "@nebular/theme": "10.0.0",
     "@swimlane/ngx-charts": "^14.0.0",
+    "@types/ws": "^8.5.4",
     "angular2-chartjs": "0.4.1",
     "bootstrap": "4.3.1",
     "chart.js": "2.7.1",
