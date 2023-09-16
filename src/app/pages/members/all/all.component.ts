@@ -17,17 +17,13 @@ export class AllComponent implements OnInit {
       columnTitle: 'Acciones'
     },
     add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      addButtonContent: '<i title="Crear nuevo" class="nb-plus"></i>',
     },
     edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      editButtonContent: '<i title="Editar" class="nb-edit"></i>',
     },
     delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
+      deleteButtonContent: '<i title="Desactivar" class="nb-close-circled"></i>',
       confirmDelete: true,
     },
     columns: {
@@ -46,6 +42,26 @@ export class AllComponent implements OnInit {
       email: {
         title: "Correo",
         type: "string",
+      },
+      active: {
+        title: 'Activo',
+        type: 'html',
+        width: '10%',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.active;
+          if (handler)
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+
       },
 
     },
@@ -79,7 +95,7 @@ export class AllComponent implements OnInit {
   }
 
   onDelete(ev: any) {
-    if (!window.confirm(`Esta seguro de querer eliminar el miembro: ${ev.data.names} ?`)) {
+    if (!window.confirm(`Esta seguro de querer desactivar el miembro: ${ev.data.names} ?`)) {
       return;
     }
     console.log("DEL->", ev.data.id)

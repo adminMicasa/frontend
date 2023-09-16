@@ -22,6 +22,7 @@ export class MemberRequestDTO {
     socialNetworkId: string | number;
     howKnowId: string | number;
     leaderDiscipleshipId: string | number;
+    active: boolean;
 }
 
 export class MemberMapper {
@@ -40,7 +41,8 @@ export class MemberMapper {
         request.occupationId = (member.occupation as Selector)?.id;
         request.socialNetworkId = (member.socialNetwork as Selector)?.id;
         request.howKnowId = (member.howKnow as Selector)?.id;
-
+        request.leaderDiscipleshipId = (member.discipleshipLeader as Member)?.id;
+        request.active = member.active;
         return request;
     }
 }

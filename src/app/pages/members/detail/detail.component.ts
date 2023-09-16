@@ -81,7 +81,7 @@ export class DetailComponent implements OnInit {
       age: ["", Validators.required],
       sex: ["", Validators.required],
       phone: ["", Validators.required],
-      email: ["", Validators.required],
+      email: [""],
       district: ["", Validators.required],
       volunteer: [false, Validators.required],
       discipleship: [false, Validators.required],
@@ -90,6 +90,7 @@ export class DetailComponent implements OnInit {
       socialNetwork: new FormControl<number | Selector | null>(null, Validators.required),
       howKnow: new FormControl<number | Selector | null>(null, Validators.required),
       discipleshipLeader: new FormControl<number | Member | null>(null),
+      active: [true, Validators.required],
     });
 
     this.municipaltiesControl.valueChanges
@@ -185,7 +186,8 @@ export class DetailComponent implements OnInit {
         occupation: member.occupation,
         socialNetwork: member.socialNetwork,
         howKnow: member.howKnow,
-        discipleshipLeader: member.discipleshipLeader
+        discipleshipLeader: member.discipleshipLeader,
+        active: member.active,
       })
     })
   }
@@ -307,6 +309,7 @@ export class DetailComponent implements OnInit {
     this.apiError = false;
     this.apiErrorMessage = '';
     this.openLoading(this.dialog);
+    debugger
     const memberDTO: MemberRequestDTO = MemberMapper.toRequestDTO(this.memberForm.value as MemberForm);
 
     if (this.action == 'edit') {

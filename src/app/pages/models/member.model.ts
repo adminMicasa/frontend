@@ -18,6 +18,7 @@ export interface Member {
   socialNetwork: number | Selector | null;
   howKnow: number | Selector | null;
   discipleshipLeader: number | Member | null;
+  active: boolean;
 }
 
 

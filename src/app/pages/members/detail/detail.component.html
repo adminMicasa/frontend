@@ -24,7 +24,7 @@
               </p>
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4">
+          <div class="col-sm-12 col-lg-2">
             <div class="form-group">
               <label for="age" class="label">Edad</label>
               <input autocomplete="off" type="number" nbInput fullWidth id="age" formControlName="age"
@@ -34,18 +34,16 @@
               </p>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-lg-4">
+          <div class="col-sm-12 col-lg-2">
             <div class="form-group">
               <div>
                 <label for="sex" class="label">Sexo</label>
                 <nb-radio-group id="sex" formControlName="sex" placeholder="sexo">
                   <nb-radio [value]="'M'">
-                    Masculino
+                    M
                   </nb-radio>
                   <nb-radio [value]="'F'">
-                    Femenino
+                    F
                   </nb-radio>
                 </nb-radio-group>
               </div>
@@ -71,9 +69,54 @@
               </p>
             </div>
           </div>
-        </div>
-
-        <div class="row">
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="occupation" class="label">Ocupacion</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth
+                  type="text" placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
+                  (click)="resetSelector('occupationAutocomplete')"
+                  [status]="memberFormControlIsValid('occupation') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('occupationAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #occupation_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredOccupations" [value]="option">
+                    {{ option.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('occupation')">
+                Requerido!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="municipality" class="label">Municipio</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth
+                  type="text" placeholder="Municipios" [nbAutocomplete]="municipality_auto"
+                  (click)="resetSelector('municipalityAutocomplete')"
+                  [status]="memberFormControlIsValid('municipality') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('municipalityAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #municipality_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredMunicipalities" [value]="option">
+                    {{ option.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('municipality')">
+                Requerido!
+              </p>
+            </div>
+          </div>
           <div class="col-sm-12 col-lg-4">
             <div class="form-group">
               <label for="district" class="label">Barrio</label>
@@ -84,131 +127,94 @@
               </p>
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4 custom">
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="socialNetwork" class="label">Redes Sociales que usas</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput
+                  fullWidth type="text" placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
+                  (click)="resetSelector('socialNetworkAutocomplete')"
+                  [status]="memberFormControlIsValid('socialNetwork') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('socialNetworkAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #socialNetwork_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredSocialNetworks" [value]="option">
+                    {{ option.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('socialNetwork')">
+                Requerido!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="howKnow" class="label">Como nos conociste</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="howKnowAutocomplete" formControlName="howKnow" nbInput fullWidth
+                  type="text" placeholder="Como nos conociste" [nbAutocomplete]="howKnow_auto"
+                  (click)="resetSelector('howKnowAutocomplete')"
+                  [status]="memberFormControlIsValid('howKnow') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('howKnowAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #howKnow_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredHowKnow" [value]="option">
+                    {{ option.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('howKnow')">
+                Requerido!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-2 custom">
             <div class="form-group ">
               <nb-checkbox fullWidth id="volunteer" formControlName="volunteer"
                 placeholder="voluntario">Voluntariado</nb-checkbox>
             </div>
           </div>
-          <div class="col-sm-12 col-lg-4 custom">
+          <div class="col-sm-12 col-lg-2 custom">
             <div class="form-group">
               <nb-checkbox fullWidth id="discipleship" formControlName="discipleship">Discipulado</nb-checkbox>
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col-sm-12 col-lg-4">
-            <label for="municipality" class="label">Municipio</label>
-            <nb-form-field class="">
-              <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth
-                type="text" placeholder="Municipios" [nbAutocomplete]="municipality_auto"
-                (click)="resetSelector('municipalityAutocomplete')"
-                [status]="memberFormControlIsValid('municipality') ? 'danger' : 'basic'">
-              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                (click)="showElements('municipalityAutocomplete')" type="button">
-                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                </nb-icon>
-              </button>
-              <nb-autocomplete #municipality_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                <nb-option *ngFor="let option of filteredMunicipalities" [value]="option">
-                  {{ option.name }}
-                </nb-option>
-              </nb-autocomplete>
-            </nb-form-field>
-            <p class="text-danger caption" *ngIf="memberFormControlIsValid('municipality')">
-              Requerido!
-            </p>
+            <div class="form-group">
+              <label for="discipleshipLeader" class="label">Lider de discipulado</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="discipleshipLeaderAutocomplete" formControlName="discipleshipLeader"
+                  nbInput fullWidth type="text" placeholder="Lider de discipulado"
+                  [nbAutocomplete]="discipleshipLeader_auto" (click)="resetSelector('discipleshipLeaderAutocomplete')"
+                  [status]="memberFormControlIsValid('discipleshipLeader') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('discipleshipLeaderAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #discipleshipLeader_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredMembers" [value]="option">
+                    {{ option.names + ' ' + option.lastnames }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="memberFormControlIsValid('discipleshipLeader')">
+                Requerido!
+              </p>
+            </div>
           </div>
-          <div class="col-sm-12 col-lg-4">
-            <label for="occupation" class="label">Ocupacion</label>
-            <nb-form-field class="">
-              <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth
-                type="text" placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
-                (click)="resetSelector('occupationAutocomplete')"
-                [status]="memberFormControlIsValid('occupation') ? 'danger' : 'basic'">
-              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                (click)="showElements('occupationAutocomplete')" type="button">
-                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                </nb-icon>
-              </button>
-              <nb-autocomplete #occupation_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                <nb-option *ngFor="let option of filteredOccupations" [value]="option">
-                  {{ option.name }}
-                </nb-option>
-              </nb-autocomplete>
-            </nb-form-field>
-            <p class="text-danger caption" *ngIf="memberFormControlIsValid('occupation')">
-              Requerido!
-            </p>
-          </div>
-          <div class="col-sm-12 col-lg-4">
-            <label for="socialNetwork" class="label">Redes Sociales que usas</label>
-            <nb-form-field class="">
-              <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput fullWidth
-                type="text" placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
-                (click)="resetSelector('socialNetworkAutocomplete')"
-                [status]="memberFormControlIsValid('socialNetwork') ? 'danger' : 'basic'">
-              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                (click)="showElements('socialNetworkAutocomplete')" type="button">
-                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                </nb-icon>
-              </button>
-              <nb-autocomplete #socialNetwork_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                <nb-option *ngFor="let option of filteredSocialNetworks" [value]="option">
-                  {{ option.name }}
-                </nb-option>
-              </nb-autocomplete>
-            </nb-form-field>
-            <p class="text-danger caption" *ngIf="memberFormControlIsValid('socialNetwork')">
-              Requerido!
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 col-lg-4">
-            <label for="howKnow" class="label">Como nos conociste</label>
-            <nb-form-field class="">
-              <input autocomplete="off" id="howKnowAutocomplete" formControlName="howKnow" nbInput fullWidth type="text"
-                placeholder="Como nos conociste" [nbAutocomplete]="howKnow_auto"
-                (click)="resetSelector('howKnowAutocomplete')"
-                [status]="memberFormControlIsValid('howKnow') ? 'danger' : 'basic'">
-              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                (click)="showElements('howKnowAutocomplete')" type="button">
-                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                </nb-icon>
-              </button>
-              <nb-autocomplete #howKnow_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                <nb-option *ngFor="let option of filteredHowKnow" [value]="option">
-                  {{ option.name }}
-                </nb-option>
-              </nb-autocomplete>
-            </nb-form-field>
-            <p class="text-danger caption" *ngIf="memberFormControlIsValid('howKnow')">
-              Requerido!
-            </p>
-          </div>
-          <div class="col-sm-12 col-lg-4">
-            <label for="discipleshipLeader" class="label">Lider de discipulado</label>
-            <nb-form-field class="">
-              <input autocomplete="off" id="discipleshipLeaderAutocomplete" formControlName="discipleshipLeader" nbInput
-                fullWidth type="text" placeholder="Lider de discipulado" [nbAutocomplete]="discipleshipLeader_auto"
-                (click)="resetSelector('discipleshipLeaderAutocomplete')"
-                [status]="memberFormControlIsValid('discipleshipLeader') ? 'danger' : 'basic'">
-              <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                (click)="showElements('discipleshipLeaderAutocomplete')" type="button">
-                <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                </nb-icon>
-              </button>
-              <nb-autocomplete #discipleshipLeader_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                <nb-option *ngFor="let option of filteredMembers" [value]="option">
-                  {{ option.names + ' ' + option.lastnames }}
-                </nb-option>
-              </nb-autocomplete>
-            </nb-form-field>
-            <p class="text-danger caption" *ngIf="memberFormControlIsValid('discipleshipLeader')">
-              Requerido!
-            </p>
-          </div>
+          <!-- <div class="col-sm-12 col-lg-4 custom">
+            <div class="form-group ">
+              <nb-checkbox fullWidth id="active" formControlName="active" placeholder="activo">Activo</nb-checkbox>
+            </div>
+          </div> -->
 
         </div>
       </form>
