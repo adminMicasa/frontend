@@ -79,7 +79,7 @@ export class DetailComponent implements OnInit {
       names: ["", Validators.required],
       lastnames: ["", Validators.required],
       age: ["", Validators.required],
-      sex: ["", Validators.required],
+      sex: ["M", Validators.required],
       phone: ["", Validators.required],
       email: [""],
       district: ["", Validators.required],
