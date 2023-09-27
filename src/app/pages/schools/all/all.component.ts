@@ -67,12 +67,6 @@ export class AllComponent implements OnInit {
     },
   };
   
-   /* "name": "string",
-    "stepId": 0,
-    "active": true,
-    "startDate": "2023-09-25T18:41:51.900Z",
-    "endDate": "2023-09-25T18:41:51.900Z"
-  }*/
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -86,13 +80,10 @@ export class AllComponent implements OnInit {
     const data = this.service.getData();
     this.source.load(data);
   }
-
-  onDeleteConfirm(event): void {
-    if (window.confirm("Are you sure you want to delete?")) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
+  ngOnInit(): void {
+    throw new Error("Method not implemented.");
   }
-  ngOnInit(): void {}
-}
+
+
+  }
+
