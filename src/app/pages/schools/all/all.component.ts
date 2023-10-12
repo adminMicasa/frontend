@@ -5,13 +5,14 @@ import { Router } from "@angular/router";
 import { MembersService } from "../../services/members.service";
 import { NbIconModule, NbToastrService, NbIconLibraries } from "@nebular/theme";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
+import { SchoolsService } from "../../services/schools.service";
 
 @Component({
   selector: "ngx-all",
   templateUrl: "./all.component.html",
   styleUrls: ["./all.component.scss"],
 })
-export class AllComponent implements OnInit {
+export class AllComponent {
   settings = {
     mode: 'external',
     actions: {
@@ -30,10 +31,6 @@ export class AllComponent implements OnInit {
     columns: {
       name: {
         title: "Escuela",
-        type: "string",
-      },
-      stepId: {
-        title: "Id",
         type: "string",
       },
       startDate: {
@@ -71,18 +68,23 @@ export class AllComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
-    nbEvaIconsModule: NbEvaIconsModule,
-    nbIconLibraries: NbIconLibraries,
-    private service: SmartTableData,
     private router: Router,
-    private _toastrService: NbToastrService
+    private _toastrService: NbToastrService,
+    private schoolService: SchoolsService,
   ) {
-    const data = this.service.getData();
-    this.source.load(data);
+    this.getAllSchools()
   }
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
+
+
+
+  getAllSchools(){
+    this.schoolService.getAllSchools({page : 1, perPage :-1}).subscribe(schools => {
+      console.log(schools)
+      this.source.load(schools.data)
+    })
+
   }
+
 
 
   }

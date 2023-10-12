@@ -6,6 +6,7 @@ export class AllMembersResponseDto {
     data: Array<Member> = [];
     metadata: Metadata;
 }
+
 export class MemberRequestDTO {
     id?: number;
     names: string;

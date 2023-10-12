@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { environment } from "../../../environments/environment";
 import { AllMembersResponseDto, MemberRequestDTO } from "../models/member.dto";
-import { pageFilter } from "../models/pagination.model";
+import { PageFilter } from "../models/pagination.model";
 import { Member } from "../models/member.model";
 import { retry } from "rxjs/operators";
 
@@ -23,7 +23,7 @@ export class MembersService {
     );
   }
 
-  getAllMembers(pagination: pageFilter) {
+  getAllMembers(pagination: PageFilter) {
     return this.http.get<AllMembersResponseDto>(
       environment.micasa.urlApi + environment.micasa.endpointMembers,
       {
