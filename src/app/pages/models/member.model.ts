@@ -12,16 +12,12 @@ export interface Member {
   email: string;
   district: string;
   volunteer: boolean;
-  discipleship: boolean;
   municipality: number | Selector | null;
   occupation: number | Selector | null;
   socialNetwork: number | Selector | null;
   howKnow: number | Selector | null;
-  discipleshipLeader: number | Member | null;
   active: boolean;
 }
-
-
 
 export type ControlsOf<T extends Record<string, any>> = {
   [K in keyof T]: T[K] extends Record<any, any> ? FormGroup<ControlsOf<T[K]>> : FormControl<T[K]>;

@@ -55,7 +55,6 @@ export class DetailComponent implements OnInit {
       .subscribe(params => {
         this.doingSomething = false;
 
-        console.log(params)
         this.municipalities = params[0].data as Selector[];
         this.filteredMunicipalities = params[0].data as Selector[];
 
@@ -71,8 +70,6 @@ export class DetailComponent implements OnInit {
         this.sexs = params[4].data as Selector[];
         this.filteredSexs = params[4].data as Selector[];
 
-        this.members = params[5].data as Member[];
-        this.filteredMembers = params[5].data as Member[];
       })
 
     this.memberForm = this.fb.group({
@@ -81,15 +78,13 @@ export class DetailComponent implements OnInit {
       age: ["", Validators.required],
       sex: ["M", Validators.required],
       phone: ["", Validators.required],
-      email: [""],
+      email: ["", Validators.email],
       district: ["", Validators.required],
       volunteer: [false, Validators.required],
-      discipleship: [false, Validators.required],
       municipality: new FormControl<number | Selector | null>(null, Validators.required),
       occupation: new FormControl<number | Selector | null>(null, Validators.required),
       socialNetwork: new FormControl<number | Selector | null>(null, Validators.required),
       howKnow: new FormControl<number | Selector | null>(null, Validators.required),
-      discipleshipLeader: new FormControl<number | Member | null>(null),
       active: [true, Validators.required],
     });
 
@@ -121,13 +116,7 @@ export class DetailComponent implements OnInit {
       ).subscribe(filter => {
         this.filteredHowKnow = filter as Selector[]
       });
-    this.discipleshipLeaderControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(filterString => this.filter(filterString, 'discipleshipLeader')),
-      ).subscribe(filter => {
-        this.filteredMembers = filter as Member[]
-      });
+
 
   }
 
@@ -144,7 +133,6 @@ export class DetailComponent implements OnInit {
         }
         if (this.action == 'edit' && this.memberId) {
           this.setMemberForm();
-
         } else if (this.action == 'create') {
         }
       }
@@ -163,9 +151,6 @@ export class DetailComponent implements OnInit {
   get howKnowControl() {
     return this.memberForm.get('howKnow') as FormControl;
   }
-  get discipleshipLeaderControl() {
-    return this.memberForm.get('discipleshipLeader') as FormControl;
-  }
 
   memberFormControlIsValid(controlName: string) {
     return this.memberForm.get(controlName).invalid && (this.memberForm.get(controlName).dirty || this.memberForm.get(controlName).touched)
@@ -181,14 +166,14 @@ export class DetailComponent implements OnInit {
         email: member.email,
         district: member.district,
         volunteer: member.volunteer,
-        discipleship: member.discipleship,
         municipality: member.municipality,
         occupation: member.occupation,
         socialNetwork: member.socialNetwork,
         howKnow: member.howKnow,
-        discipleshipLeader: member.discipleshipLeader,
         active: member.active,
       })
+      this.memberForm.updateValueAndValidity();
+      this.memberForm.markAllAsTouched();
     })
   }
 
@@ -267,16 +252,6 @@ export class DetailComponent implements OnInit {
       this.howKnow.sort((a, b) => a.name.localeCompare(b.name));
       this.howKnow.unshift(element);
       this.filteredHowKnow = this.howKnow;
-    }
-    if (selector.includes('discipleshipLeader')) {
-      if (!this.discipleshipLeaderControl.value) {
-        return;
-      }
-      let index = this.members.findIndex(data => data.id == this.discipleshipLeaderControl.value.id);
-      let element = this.members.splice(index, 1)[0];
-      this.members.sort((a, b) => a.names.localeCompare(b.names));
-      this.members.unshift(element);
-      this.filteredMembers = this.members;
     }
   }
 
