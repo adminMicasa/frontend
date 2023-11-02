@@ -17,12 +17,10 @@ export class MemberRequestDTO {
     email: string;
     district: string;
     volunteer: boolean;
-    discipleship: boolean;
     municipalityId: string | number;
     occupationId: string | number;
     socialNetworkId: string | number;
     howKnowId: string | number;
-    leaderDiscipleshipId: string | number;
     active: boolean;
 }
 
@@ -37,14 +35,11 @@ export class MemberMapper {
         request.email = member.email;
         request.district = member.district;
         request.volunteer = member.volunteer;
-        request.discipleship = member.discipleship;
         request.municipalityId = (member.municipality as Selector)?.id;
         request.occupationId = (member.occupation as Selector)?.id;
         request.socialNetworkId = (member.socialNetwork as Selector)?.id;
         request.howKnowId = (member.howKnow as Selector)?.id;
-        request.leaderDiscipleshipId = (member.discipleshipLeader as Member)?.id;
         request.active = member.active;
         return request;
     }
 }
-
