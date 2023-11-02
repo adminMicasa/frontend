@@ -36,10 +36,24 @@ export class AllComponent {
       startDate: {
         title: "Fecha de inicio",
         type: "string",
+        valuePrepareFunction: (cell, row) => {
+          const date = new Date(row.startDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
       },
       endDate: {
-        title: "fecha de finalizacion",
+        title: "Fecha de finalización",
         type: "string",
+        valuePrepareFunction: (cell, row) => {
+          const date = new Date(row.endDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
       },
       active: {
         title: 'Activo',
@@ -63,7 +77,7 @@ export class AllComponent {
       },
     },
   };
-  
+
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -77,15 +91,33 @@ export class AllComponent {
 
 
 
-  getAllSchools(){
-    this.schoolService.getAllSchools({page : 1, perPage :-1}).subscribe(schools => {
-      console.log(schools)
+  getAllSchools() {
+    this.schoolService.getAllSchools({ page: 1, perPage: -1 }).subscribe(schools => {
       this.source.load(schools.data)
     })
-
   }
 
-
-
+  onDelete(ev: any) {
+    if (!window.confirm(`Esta seguro de querer desactivar el miembro: ${ev.data.names} ?`)) {
+      return;
+    }
+    console.log("DEL->", ev.data.id)
+    this.schoolService.deleteSchool(ev.data.id).subscribe(deleted => {
+      this.showToast(`Acción ejecutada!`, 'top-right', 'success');
+      this.getAllSchools();
+    })
   }
+
+  onEdit(ev: any) {
+    this.router.navigate(['pages/schools/detail'], { queryParams: { action: 'edit', id: ev.data.id } });
+  }
+
+  showToast(message, position, status) {
+    this._toastrService.show(
+      status || 'Success',
+      `Resultado: ${message}`,
+      { position, status });
+  }
+
+}
 

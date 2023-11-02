@@ -25,4 +25,10 @@ export class SchoolsService {
       )
       .pipe(retry(1));
   }
+
+  deleteSchool(id: number) {
+    return this.http.delete<any>(environment.micasa.urlApi + environment.micasa.endpointSchools + '/' + id
+    );
+  }
+
 }

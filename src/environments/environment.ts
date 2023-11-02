@@ -11,7 +11,7 @@
 export const environment = {
   production: false,
   micasa: {
-    urlApi: 'https://serverlessmicasamed.azurewebsites.net/api',
+    urlApi: 'http://localhost:3000/api',
     endpointSchools :'/courses',
     endpointMembers: '/members',
     endpointMunicipalities: '/selectors/municipalities',

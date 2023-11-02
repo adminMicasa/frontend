@@ -49,8 +49,10 @@ export class MembersService {
       member
     )
   }
+
   deleteMember(id: number) {
     return this.http.delete<any>(environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id
     );
   }
+
 }

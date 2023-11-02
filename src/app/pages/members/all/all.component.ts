@@ -36,7 +36,7 @@ export class AllComponent implements OnInit {
         type: "string",
       },
       phone: {
-        title: "Telefono",
+        title: "Teléfono",
         type: "string",
       },
       email: {
