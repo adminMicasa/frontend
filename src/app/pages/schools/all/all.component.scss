@@ -6,7 +6,7 @@
   }
 }
 
-::ng-deep tr.hide-action > td.ng2-smart-actions
-  > ng2-st-tbody-edit-delete > a.ng2-smart-action.ng2-smart-action-delete-delete {
+::ng-deep tr.hide-action > td.ng2-smart-actions >
+  ng2-st-tbody-edit-delete > a.ng2-smart-action.ng2-smart-action-delete-delete {
   display: none !important;
 }
