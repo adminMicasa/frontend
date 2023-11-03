@@ -13,5 +13,6 @@ export const environment = {
     endpointOccupations: '/selectors/occupations',
     endpointSocialNetworks: '/selectors/social-networks',
     endpointHowKnow: '/selectors/how-know',
+    endpointSteps: '/selectors/steps',
   }
 };
