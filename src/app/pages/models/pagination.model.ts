@@ -4,12 +4,12 @@ export class Metadata {
     page: number;
 }
 
-export class pageFilter {
+export class PageFilter {
     page: number;
     perPage: number;
 }
 
-export class fieldFilter {
+export class FieldFilter {
     name?: string;
     names?: string;
     lastnames?: string;

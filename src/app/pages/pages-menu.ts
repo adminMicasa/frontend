@@ -35,6 +35,15 @@ export const MENU_ITEMS: NbMenuItem[] = [
     }
   },
   {
+    title: 'Escuelas',
+    icon: 'map-outline',
+    link: '/pages/schools/all',
+    home: true,
+    data: {
+      active: true
+    }
+  },
+  {
     title: 'Layout',
     icon: 'layout-outline',
     children: [

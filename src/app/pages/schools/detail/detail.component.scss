@@ -1,0 +1,48 @@
+.form-inline [fullWidth] {
+  flex: 1;
+}
+
+.form-inline > * {
+  margin: 0 1.5rem 1.5rem 0;
+}
+
+nb-card.inline-form-card nb-card-body {
+  padding-bottom: 0;
+}
+
+.custom {
+  display: flex;
+  align-items: center;
+}
+
+.m-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 20px;
+}
+
+nb-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.space {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.nbButton {
+  margin: 0 5px;
+}
+
+.upload-center {
+  align-content: center;
+  align-items: center;
+  display: grid;
+}
+

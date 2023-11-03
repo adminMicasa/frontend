@@ -3,18 +3,20 @@ import { LocalDataSource } from "ng2-smart-table";
 import { SmartTableData } from "../../../@core/data/smart-table";
 import { Router } from "@angular/router";
 import { MembersService } from "../../services/members.service";
-import { NbToastrService } from "@nebular/theme";
+import { NbIconModule, NbToastrService, NbIconLibraries } from "@nebular/theme";
+import { NbEvaIconsModule } from "@nebular/eva-icons";
+import { SchoolsService } from "../../services/schools.service";
 
 @Component({
   selector: "ngx-all",
   templateUrl: "./all.component.html",
   styleUrls: ["./all.component.scss"],
 })
-export class AllComponent implements OnInit {
+export class AllComponent {
   settings = {
     mode: 'external',
     actions: {
-      columnTitle: 'Acciones',
+      columnTitle: 'Acciones'
     },
     rowClassFunction: (row) => {
       if (row?.data?.active) {
@@ -34,21 +36,31 @@ export class AllComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      names: {
-        title: "Nombres",
+      name: {
+        title: "Escuela",
         type: "string",
       },
-      lastnames: {
-        title: "Apellidos",
+      startDate: {
+        title: "Fecha de inicio",
         type: "string",
+        valuePrepareFunction: (cell, row) => {
+          const date = new Date(row.startDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
       },
-      phone: {
-        title: "Teléfono",
+      endDate: {
+        title: "Fecha de finalización",
         type: "string",
-      },
-      email: {
-        title: "Correo",
-        type: "string",
+        valuePrepareFunction: (cell, row) => {
+          const date = new Date(row.endDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
       },
       active: {
         title: 'Activo',
@@ -57,11 +69,9 @@ export class AllComponent implements OnInit {
         sortDirection: 'desc',
         valuePrepareFunction: (cell, row) => {
           let handler = row.active;
-          if (handler) {
+          if (handler)
             return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
-          } else {
-            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
-          }
+          return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
         },
         filter: {
           type: 'checkbox',
@@ -73,7 +83,6 @@ export class AllComponent implements OnInit {
         },
 
       },
-
     },
   };
 
@@ -81,38 +90,34 @@ export class AllComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private membersService: MembersService,
     private _toastrService: NbToastrService,
-  ) { }
-
-  ngOnInit(): void {
-    this.getAllMembers()
+    private schoolService: SchoolsService,
+  ) {
+    this.getAllSchools()
   }
 
-  getAllMembers() {
-    this.membersService.getAllMembers({ page: 1, perPage: -1 }).subscribe(membersData => {
-      console.log(membersData)
-      this.source.load(membersData.data);
+  getAllSchools() {
+    this.schoolService.getAllSchools({ page: 1, perPage: -1 }).subscribe(schools => {
+      this.source.load(schools.data)
     })
   }
 
   onAdd(ev: any) {
-    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'create' } });
-  }
-
-  onEdit(ev: any) {
-    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'edit', id: ev.data.id } });
+    this.router.navigate(['pages/schools/detail'], { queryParams: { action: 'create' } });
   }
 
   onDelete(ev: any) {
-    if (!window.confirm(`Esta seguro de querer desactivar el miembro: ${ev.data.names} ?`)) {
+    if (!window.confirm(`Esta seguro de querer desactivar la escuela: ${ev.data.name} ?`)) {
       return;
     }
-    console.log("DEL->", ev.data.id)
-    this.membersService.deleteMember(ev.data.id).subscribe(deleted => {
+    this.schoolService.deleteSchool(ev.data.id).subscribe(deleted => {
       this.showToast(`Acción ejecutada!`, 'top-right', 'success');
-      this.getAllMembers();
+      this.getAllSchools();
     })
+  }
+
+  onEdit(ev: any) {
+    this.router.navigate(['pages/schools/detail'], { queryParams: { action: 'edit', id: ev.data.id } });
   }
 
   showToast(message, position, status) {
@@ -123,3 +128,4 @@ export class AllComponent implements OnInit {
   }
 
 }
+

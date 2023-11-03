@@ -262,7 +262,6 @@ export class DetailComponent implements OnInit {
       this.selectorsService.getAllSocialNetworks(),
       this.selectorsService.getAllHowKnow(),
       this.selectorsService.getAllSexs(),
-      this.membersService.getAllMembers({ page: 1, perPage: -1 })
     ]
     return forkJoin(params);
   }
@@ -284,7 +283,6 @@ export class DetailComponent implements OnInit {
     this.apiError = false;
     this.apiErrorMessage = '';
     this.openLoading(this.dialog);
-    debugger
     const memberDTO: MemberRequestDTO = MemberMapper.toRequestDTO(this.memberForm.value as MemberForm);
 
     if (this.action == 'edit') {
