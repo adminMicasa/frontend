@@ -18,6 +18,13 @@ export class AllComponent {
     actions: {
       columnTitle: 'Acciones'
     },
+    rowClassFunction: (row) => {
+      if (row?.data?.active) {
+        return '';
+      } else {
+        return 'hide-action';
+      }
+    },
     add: {
       addButtonContent: '<i title="Crear nuevo" class="nb-plus"></i>',
     },
@@ -59,6 +66,7 @@ export class AllComponent {
         title: 'Activo',
         type: 'html',
         width: '10%',
+        sortDirection: 'desc',
         valuePrepareFunction: (cell, row) => {
           let handler = row.active;
           if (handler)
@@ -78,7 +86,6 @@ export class AllComponent {
     },
   };
 
-
   source: LocalDataSource = new LocalDataSource();
 
   constructor(
@@ -89,19 +96,20 @@ export class AllComponent {
     this.getAllSchools()
   }
 
-
-
   getAllSchools() {
     this.schoolService.getAllSchools({ page: 1, perPage: -1 }).subscribe(schools => {
       this.source.load(schools.data)
     })
   }
 
+  onAdd(ev: any) {
+    this.router.navigate(['pages/schools/detail'], { queryParams: { action: 'create' } });
+  }
+
   onDelete(ev: any) {
-    if (!window.confirm(`Esta seguro de querer desactivar el miembro: ${ev.data.names} ?`)) {
+    if (!window.confirm(`Esta seguro de querer desactivar la escuela: ${ev.data.name} ?`)) {
       return;
     }
-    console.log("DEL->", ev.data.id)
     this.schoolService.deleteSchool(ev.data.id).subscribe(deleted => {
       this.showToast(`Acción ejecutada!`, 'top-right', 'success');
       this.getAllSchools();

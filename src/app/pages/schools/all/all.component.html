@@ -3,8 +3,8 @@
     Smart Table
   </nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source"
-    (delete)="onDelete($event)" (edit)="onEdit($event)">
+    <ng2-smart-table [settings]="settings" [source]="source" (delete)="onDelete($event)" (edit)="onEdit($event)"
+      (create)="onAdd($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>

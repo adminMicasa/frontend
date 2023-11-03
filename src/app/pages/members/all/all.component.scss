@@ -1,7 +1,11 @@
-@import '../../../@theme/styles/themes';
+@import "../../../@theme/styles/themes";
 
 @include nb-install-component() {
-    nb-card {
-      transform: translate3d(0, 0, 0);
-    }
+  nb-card {
+    transform: translate3d(0, 0, 0);
   }
+}
+
+::ng-deep tr.hide-action > td.ng2-smart-actions > ng2-st-tbody-edit-delete > a.ng2-smart-action.ng2-smart-action-delete-delete {
+  display: none !important;
+}

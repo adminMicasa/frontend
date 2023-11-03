@@ -14,7 +14,14 @@ export class AllComponent implements OnInit {
   settings = {
     mode: 'external',
     actions: {
-      columnTitle: 'Acciones'
+      columnTitle: 'Acciones',
+    },
+    rowClassFunction: (row) => {
+      if (row?.data?.active) {
+        return '';
+      } else {
+        return 'hide-action';
+      }
     },
     add: {
       addButtonContent: '<i title="Crear nuevo" class="nb-plus"></i>',
@@ -47,11 +54,14 @@ export class AllComponent implements OnInit {
         title: 'Activo',
         type: 'html',
         width: '10%',
+        sortDirection: 'desc',
         valuePrepareFunction: (cell, row) => {
           let handler = row.active;
-          if (handler)
+          if (handler) {
             return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
-          return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
         },
         filter: {
           type: 'checkbox',

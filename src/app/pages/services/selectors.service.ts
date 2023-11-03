@@ -4,6 +4,7 @@ import { environment } from "../../../environments/environment";
 import { AllSelectorsResponse } from "../models/selector.model";
 import { of } from "rxjs";
 import { retry } from "rxjs/operators";
+import { AllStepResponse } from "../models/step.model";
 
 
 @Injectable({
@@ -49,4 +50,12 @@ export class SelectorsService {
     getAllSexs() {
         return of({ data: [{ id: 'M', name: 'Masculino' }, { id: 'F', name: 'Femenino' }] } as AllSelectorsResponse);
     }
+
+    getAllSteps() {
+      return this.http.get<AllStepResponse>(
+          environment.micasa.urlApi + environment.micasa.endpointSteps
+      ).pipe(
+          retry(1)
+      );
+  }
 }

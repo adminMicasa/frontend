@@ -1,1 +1,127 @@
-<p>detail works!</p>
+<div class="col-12">
+  <nb-card [nbSpinner]="doingSomething" nbSpinnerStatus="primary">
+    <nb-card-header>Escuela</nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="schoolForm" (ngSubmit)="submit()">
+        <div class="row">
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="name" class="label">Nombre</label>
+              <input autocomplete="off" type="text" nbInput fullWidth id="name" formControlName="name"
+                placeholder="Nombre" [status]="schoolsFormControlIsValid('name') ? 'danger' : 'basic'">
+              <p class="text-danger caption" *ngIf="schoolsFormControlIsValid('name')">
+                Requerido!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="name" class="label">Fecha de inicio</label>
+              <input nbInput placeholder="Inicio" fullWidth [nbDatepicker]="startDate" formControlName="startDate">
+              <nb-datepicker #startDate></nb-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="name" class="label">Fecha de finalización</label>
+              <input nbInput placeholder="Finalización" fullWidth [nbDatepicker]="endDate" formControlName="endDate">
+              <nb-datepicker #endDate></nb-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="form-group">
+              <label for="step" class="label">Paso</label>
+              <nb-form-field class="">
+                <input autocomplete="off" id="stepAutocomplete" formControlName="step" nbInput fullWidth type="text"
+                  placeholder="Paso" [nbAutocomplete]="step_auto" (click)="resetSelector('stepAutocomplete')"
+                  [status]="schoolsFormControlIsValid('step') ? 'danger' : 'basic'">
+                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
+                  (click)="showElements('stepAutocomplete')" type="button">
+                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
+                  </nb-icon>
+                </button>
+                <nb-autocomplete #step_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
+                  <nb-option *ngFor="let option of filteredSteps" [value]="option">
+                    {{ option.name }}
+                  </nb-option>
+                </nb-autocomplete>
+              </nb-form-field>
+              <p class="text-danger caption" *ngIf="schoolsFormControlIsValid('step')">
+                Requerido!
+              </p>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4 custom" *ngIf="action=='edit'">
+            <div class="form-group ">
+              <nb-checkbox fullWidth id="active" formControlName="active" placeholder="activo">Activo</nb-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="m-footer">
+        <button type="submit" nbButton status="primary" (click)="submit()"
+          [disabled]="!schoolForm.valid">{{getSumitTitle()}}</button>
+        <button type="submit" nbButton status="danger" (click)="cancel()">Cancelar</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+
+
+
+  <ng-template #dialog let-data let-ref="_dialogRef">
+    <div class="dialog">
+      <nb-card>
+        <nb-card-header>{{ data.title}}</nb-card-header>
+        <nb-card-body>
+          <div class="row" style="height: 16rem !important;">
+            <div class="col-12">
+              <div *ngIf="apiSuccess" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100% " src="../../assets/micasa/success.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Guardado con exito!</h6>
+                </div>
+              </div>
+              <div *ngIf="!apiSuccess && !apiError" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100%" src="../../assets/micasa/loading.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Guardando...</h6>
+                </div>
+              </div>
+              <div *ngIf="apiError" class="row">
+                <div class="col-md-6 offset-md-3 col-sm-6 offset-sm-2" style="height: 14rem;">
+                  <lottie-player style="width: 100%;height:100%" src="../../assets/micasa/error.json"
+                    background="transparent" speed="0.4" loop autoplay>
+                  </lottie-player>
+                </div>
+                <div class="col-12 center">
+                  <h6>Algo salio mal intentalo de nuevo!</h6>
+                  <p> {{ apiErrorMessage }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </nb-card-body>
+        <nb-card-footer>
+          <div *ngIf="apiSuccess;" style="text-align: center;">
+            <button class="space" nbButton (click)="goList()">Volver a la lista</button>
+            <button class="space" nbButton (click)="seeItem()">Ver Item</button>
+          </div>
+          <div *ngIf="apiError;" style="text-align: center;">
+            <button class="space" nbButton (click)="goList()">Volver a la lista</button>
+            <button class="space" nbButton (click)="closeLoading()">Reintentar</button>
+          </div>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+  </ng-template>

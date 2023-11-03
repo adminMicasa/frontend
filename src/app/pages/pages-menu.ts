@@ -35,7 +35,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     }
   },
   {
-    title: 'Schools',
+    title: 'Escuelas',
     icon: 'map-outline',
     link: '/pages/schools/all',
     home: true,
