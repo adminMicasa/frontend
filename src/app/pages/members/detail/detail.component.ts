@@ -9,6 +9,7 @@ import { map, startWith } from "rxjs/operators";
 import { ControlsOf, Member, MemberForm } from "../../models/member.model";
 import { MemberMapper, MemberRequestDTO } from "../../models/member.dto";
 import { NbDialogRef, NbDialogService, NbToastrService } from "@nebular/theme";
+import { InputTitlePipe } from "../../shared/pipes/input-title.pipe";
 @Component({
   selector: "ngx-detail",
   templateUrl: "./detail.component.html",
@@ -16,6 +17,7 @@ import { NbDialogRef, NbDialogService, NbToastrService } from "@nebular/theme";
   queries: {
     dialog: new ViewChild("dialog")
   },
+  providers: [InputTitlePipe]
 })
 export class DetailComponent implements OnInit {
   doingSomething: boolean = false;
@@ -24,17 +26,11 @@ export class DetailComponent implements OnInit {
   memberForm: FormGroup<ControlsOf<MemberForm>>;
 
   municipalities: Array<Selector> = [];
-  filteredMunicipalities: Array<Selector> = [];
   occupations: Array<Selector> = [];
-  filteredOccupations: Array<Selector> = [];
   socialNetworks: Array<Selector> = [];
-  filteredSocialNetworks: Array<Selector> = [];
   howKnow: Array<Selector> = [];
-  filteredHowKnow: Array<Selector> = [];
   sexs: Array<Selector> = [];
-  filteredSexs: Array<Selector> = [];
   members: Array<Member> = [];
-  filteredMembers: Array<Member> = [];
 
   dialog: TemplateRef<any>;
   apiError: boolean = false;
@@ -50,26 +46,16 @@ export class DetailComponent implements OnInit {
     private _toastrService: NbToastrService,
     private _dialogService: NbDialogService,
     @Optional() protected _dialogRef: NbDialogRef<any>,
+    private titleCasePipe: InputTitlePipe
   ) {
     this.getParams()
       .subscribe(params => {
         this.doingSomething = false;
-
         this.municipalities = params[0].data as Selector[];
-        this.filteredMunicipalities = params[0].data as Selector[];
-
         this.occupations = params[1].data as Selector[];
-        this.filteredOccupations = params[1].data as Selector[];
-
         this.socialNetworks = params[2].data as Selector[];
-        this.filteredSocialNetworks = params[2].data as Selector[];
-
         this.howKnow = params[3].data as Selector[];
-        this.filteredHowKnow = params[3].data as Selector[];
-
         this.sexs = params[4].data as Selector[];
-        this.filteredSexs = params[4].data as Selector[];
-
       })
 
     this.memberForm = this.fb.group({
@@ -92,31 +78,22 @@ export class DetailComponent implements OnInit {
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'municipalities')),
-      ).subscribe(filter => {
-        this.filteredMunicipalities = filter as Selector[]
-      });
+      );
     this.occupationControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'occupation')),
-      ).subscribe(filter => {
-        this.filteredOccupations = filter as Selector[]
-      });
+      );
     this.socialNetworkControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'socialNetwork')),
-      ).subscribe(filter => {
-        this.filteredSocialNetworks = filter as Selector[]
-      });
+      );
     this.howKnowControl.valueChanges
       .pipe(
         startWith(''),
         map(filterString => this.filter(filterString, 'howKnow')),
-      ).subscribe(filter => {
-        this.filteredHowKnow = filter as Selector[]
-      });
-
+      );
 
   }
 
@@ -137,8 +114,20 @@ export class DetailComponent implements OnInit {
         }
       }
     )
+    this.namesControl.valueChanges.subscribe(() => {
+      this.namesControl.patchValue(this.titleCasePipe.transform(this.namesControl.value), { emitEvent: false });
+    })
+    this.lastnamesControl.valueChanges.subscribe(() => {
+      this.lastnamesControl.patchValue(this.titleCasePipe.transform(this.lastnamesControl.value), { emitEvent: false });
+    })
   }
 
+  get namesControl() {
+    return this.memberForm.get('names') as FormControl;
+  }
+  get lastnamesControl() {
+    return this.memberForm.get('lastnames') as FormControl;
+  }
   get municipaltiesControl() {
     return this.memberForm.get('municipality') as FormControl;
   }
@@ -210,49 +199,6 @@ export class DetailComponent implements OnInit {
       return (value as Member).names + ' ' + (value as Member).lastnames;
     }
     return value;
-  }
-
-  resetSelector(selector: string) {
-    if (selector.includes('municipality')) {
-      if (!this.municipaltiesControl.value) {
-        return;
-      }
-      let index = this.municipalities.findIndex(data => data.id == this.municipaltiesControl.value.id);
-      let element = this.municipalities.splice(index, 1)[0];
-      this.municipalities.sort((a, b) => a.name.localeCompare(b.name));
-      this.municipalities.unshift(element);
-      this.filteredMunicipalities = this.municipalities;
-    }
-    if (selector.includes('occupation')) {
-      if (!this.occupationControl.value) {
-        return;
-      }
-      let index = this.occupations.findIndex(data => data.id == this.occupationControl.value.id);
-      let element = this.occupations.splice(index, 1)[0];
-      this.occupations.sort((a, b) => a.name.localeCompare(b.name));
-      this.occupations.unshift(element);
-      this.filteredOccupations = this.occupations;
-    }
-    if (selector.includes('socialNetwork')) {
-      if (!this.socialNetworkControl.value) {
-        return;
-      }
-      let index = this.socialNetworks.findIndex(data => data.id == this.socialNetworkControl.value.id);
-      let element = this.socialNetworks.splice(index, 1)[0];
-      this.socialNetworks.sort((a, b) => a.name.localeCompare(b.name));
-      this.socialNetworks.unshift(element);
-      this.filteredSocialNetworks = this.socialNetworks;
-    }
-    if (selector.includes('howKnow')) {
-      if (!this.howKnowControl.value) {
-        return;
-      }
-      let index = this.howKnow.findIndex(data => data.id == this.howKnowControl.value.id);
-      let element = this.howKnow.splice(index, 1)[0];
-      this.howKnow.sort((a, b) => a.name.localeCompare(b.name));
-      this.howKnow.unshift(element);
-      this.filteredHowKnow = this.howKnow;
-    }
   }
 
   getParams() {

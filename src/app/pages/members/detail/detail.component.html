@@ -73,20 +73,15 @@
             <div class="form-group">
               <label for="occupation" class="label">Ocupacion</label>
               <nb-form-field class="">
-                <input autocomplete="off" id="occupationAutocomplete" formControlName="occupation" nbInput fullWidth
-                  type="text" placeholder="Ocupaciones" [nbAutocomplete]="occupation_auto"
-                  (click)="resetSelector('occupationAutocomplete')"
-                  [status]="memberFormControlIsValid('occupation') ? 'danger' : 'basic'">
-                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                  (click)="showElements('occupationAutocomplete')" type="button">
-                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                  </nb-icon>
-                </button>
-                <nb-autocomplete #occupation_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                  <nb-option *ngFor="let option of filteredOccupations" [value]="option">
+                <nb-select formControlName="occupation" fullWidth type="text" placeholder="Ocupaciones"
+                  [compareWith]="viewHandle">
+                  <nb-option *ngFor="let option of occupations" [value]="option">
                     {{ option.name }}
                   </nb-option>
-                </nb-autocomplete>
+                </nb-select>
+                <p class="text-danger caption" *ngIf="memberFormControlIsValid('occupation')">
+                  Requerido!
+                </p>
               </nb-form-field>
               <p class="text-danger caption" *ngIf="memberFormControlIsValid('occupation')">
                 Requerido!
@@ -97,20 +92,12 @@
             <div class="form-group">
               <label for="municipality" class="label">Municipio</label>
               <nb-form-field class="">
-                <input autocomplete="off" id="municipalityAutocomplete" formControlName="municipality" nbInput fullWidth
-                  type="text" placeholder="Municipios" [nbAutocomplete]="municipality_auto"
-                  (click)="resetSelector('municipalityAutocomplete')"
-                  [status]="memberFormControlIsValid('municipality') ? 'danger' : 'basic'">
-                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                  (click)="showElements('municipalityAutocomplete')" type="button">
-                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                  </nb-icon>
-                </button>
-                <nb-autocomplete #municipality_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                  <nb-option *ngFor="let option of filteredMunicipalities" [value]="option">
+                <nb-select formControlName="municipality" fullWidth type="text" placeholder="Municipios"
+                  [compareWith]="viewHandle">
+                  <nb-option *ngFor="let option of municipalities" [value]="option">
                     {{ option.name }}
                   </nb-option>
-                </nb-autocomplete>
+                </nb-select>
               </nb-form-field>
               <p class="text-danger caption" *ngIf="memberFormControlIsValid('municipality')">
                 Requerido!
@@ -131,20 +118,12 @@
             <div class="form-group">
               <label for="socialNetwork" class="label">Redes Sociales que usas</label>
               <nb-form-field class="">
-                <input autocomplete="off" id="socialNetworkAutocomplete" formControlName="socialNetwork" nbInput
-                  fullWidth type="text" placeholder="Redes sociales" [nbAutocomplete]="socialNetwork_auto"
-                  (click)="resetSelector('socialNetworkAutocomplete')"
-                  [status]="memberFormControlIsValid('socialNetwork') ? 'danger' : 'basic'">
-                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                  (click)="showElements('socialNetworkAutocomplete')" type="button">
-                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                  </nb-icon>
-                </button>
-                <nb-autocomplete #socialNetwork_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                  <nb-option *ngFor="let option of filteredSocialNetworks" [value]="option">
+                <nb-select formControlName="socialNetwork" fullWidth type="text" placeholder="Redes sociales"
+                  [compareWith]="viewHandle">
+                  <nb-option *ngFor="let option of socialNetworks" [value]="option">
                     {{ option.name }}
                   </nb-option>
-                </nb-autocomplete>
+                </nb-select>
               </nb-form-field>
               <p class="text-danger caption" *ngIf="memberFormControlIsValid('socialNetwork')">
                 Requerido!
@@ -155,20 +134,12 @@
             <div class="form-group">
               <label for="howKnow" class="label">Como nos conociste</label>
               <nb-form-field class="">
-                <input autocomplete="off" id="howKnowAutocomplete" formControlName="howKnow" nbInput fullWidth
-                  type="text" placeholder="Como nos conociste" [nbAutocomplete]="howKnow_auto"
-                  (click)="resetSelector('howKnowAutocomplete')"
-                  [status]="memberFormControlIsValid('howKnow') ? 'danger' : 'basic'">
-                <button class="position-absolute custom-position" nbSuffix nbButton ghost size="small"
-                  (click)="showElements('howKnowAutocomplete')" type="button">
-                  <nb-icon [icon]="'arrow-ios-downward-outline'" pack="eva" [attr.aria-label]="'hide password'">
-                  </nb-icon>
-                </button>
-                <nb-autocomplete #howKnow_auto [handleDisplayFn]="viewHandle" [activeFirst]="true">
-                  <nb-option *ngFor="let option of filteredHowKnow" [value]="option">
+                <nb-select formControlName="howKnow" fullWidth type="text" placeholder="Como nos conociste"
+                  [compareWith]="viewHandle">
+                  <nb-option *ngFor="let option of howKnow" [value]="option">
                     {{ option.name }}
                   </nb-option>
-                </nb-autocomplete>
+                </nb-select>
               </nb-form-field>
               <p class="text-danger caption" *ngIf="memberFormControlIsValid('howKnow')">
                 Requerido!
@@ -198,8 +169,6 @@
       </div>
     </nb-card-footer>
   </nb-card>
-
-
 
   <ng-template #dialog let-data let-ref="_dialogRef">
     <div class="dialog">
@@ -256,3 +225,5 @@
       </nb-card>
     </div>
   </ng-template>
+
+  {{memberForm.value | json}}
