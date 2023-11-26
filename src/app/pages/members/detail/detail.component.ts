@@ -94,7 +94,6 @@ export class DetailComponent implements OnInit {
         startWith(''),
         map(filterString => this.filter(filterString, 'howKnow')),
       );
-
   }
 
   ngOnInit(): void {

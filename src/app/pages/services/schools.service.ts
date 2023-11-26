@@ -3,9 +3,10 @@ import { Injectable } from "@angular/core";
 
 import { environment } from "../../../environments/environment";
 import { PageFilter } from "../models/pagination.model";
-import { retry } from "rxjs/operators";
+import { delay, retry } from "rxjs/operators";
 import { SchoolsRequestDTO } from "../models/school.dto";
 import { School } from "../models/school.model";
+import { EnrollmentCourse } from "../models/enrollmentsCourses.model";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +18,8 @@ export class SchoolsService {
     return this.http.get<School>(
       environment.micasa.urlApi + environment.micasa.endpointSchools + '/' + id,
     ).pipe(
-      retry(1)
+      retry(2),
+      delay(500),
     );
   }
 
@@ -31,7 +33,10 @@ export class SchoolsService {
           },
         }
       )
-      .pipe(retry(1));
+      .pipe(
+        retry(2),
+        delay(500),
+      );
   }
 
   createSchool(school: SchoolsRequestDTO) {
@@ -51,6 +56,37 @@ export class SchoolsService {
   deleteSchool(id: number) {
     return this.http.delete<any>(environment.micasa.urlApi + environment.micasa.endpointSchools + '/' + id
     );
+  }
+
+  getEnrollmentCourses(courseId: string, pagination?: PageFilter) {
+    return this.http
+      .get<EnrollmentCourse[]>(
+        environment.micasa.urlApi + environment.micasa.endpointenrollmentCoursesByCourseId + '/' + courseId,
+        {
+          params: {
+            ...pagination,
+          },
+        }
+      )
+      .pipe(
+        retry(2),
+        delay(500),
+      );
+  }
+
+  addEnrollmentCourses(addEnrollmentRequestDto: { courseId: number | string, memberId: number | string, state: string }) {
+    return this.http
+      .post<EnrollmentCourse>(
+        environment.micasa.urlApi + environment.micasa.endpointenrollmentCourses,
+        addEnrollmentRequestDto
+      );
+  }
+
+  deleteEnrollmentCourses(enrollmentId: number | string) {
+    return this.http
+      .delete<EnrollmentCourse[]>(
+        environment.micasa.urlApi + environment.micasa.endpointenrollmentCourses + '/' + enrollmentId
+      );
   }
 
 }

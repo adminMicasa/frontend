@@ -46,3 +46,20 @@ nb-radio-group {
   display: grid;
 }
 
+@media screen and (max-width: 600px) {
+  .dialog-member-container {
+    max-width: 95vw;
+  }
+  .dialog-member-body {
+    max-height: 100vw;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .dialog-member-container {
+    max-width: 90vw;
+  }
+  .dialog-member-body {
+    max-height: 40vw;
+  }
+}

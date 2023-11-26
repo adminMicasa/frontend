@@ -91,7 +91,6 @@ export class AllComponent implements OnInit {
 
   getAllMembers() {
     this.membersService.getAllMembers({ page: 1, perPage: -1 }).subscribe(membersData => {
-      console.log(membersData)
       this.source.load(membersData.data);
     })
   }

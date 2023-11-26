@@ -5,7 +5,7 @@ import { environment } from "../../../environments/environment";
 import { AllMembersResponseDto, MemberRequestDTO } from "../models/member.dto";
 import { PageFilter } from "../models/pagination.model";
 import { Member } from "../models/member.model";
-import { retry } from "rxjs/operators";
+import { delay, retry } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +19,8 @@ export class MembersService {
     return this.http.get<Member>(
       environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id,
     ).pipe(
-      retry(1)
+      retry(2),
+      delay(500),
     );
   }
 
@@ -32,7 +33,8 @@ export class MembersService {
         }
       }
     ).pipe(
-      retry(1)
+      retry(2),
+      delay(500),
     );
   }
 

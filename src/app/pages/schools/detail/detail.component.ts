@@ -10,13 +10,16 @@ import { SchoolsService } from '../../services/schools.service';
 import { forkJoin } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Selector } from '../../models/selector.model';
+import { LocalDataSource } from 'ng2-smart-table';
+import { MembersService } from '../../services/members.service';
 
 @Component({
   selector: 'ngx-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
   queries: {
-    dialog: new ViewChild("dialog")
+    dialog: new ViewChild("dialog"),
+    dialog_member: new ViewChild("dialog_member")
   },
 })
 export class DetailComponent implements OnInit {
@@ -30,9 +33,13 @@ export class DetailComponent implements OnInit {
   filteredSteps: Array<Step> = [];
 
   dialog: TemplateRef<any>;
-  apiError: boolean = false;
+  dialog_member: TemplateRef<any>;
   apiSuccess: boolean = false;
+  apiError: boolean = false;
   apiErrorMessage: string = '';
+  loadingMemberData: boolean = false;
+  apiSuccessMember: boolean = false;
+  apiErrorMember: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +49,9 @@ export class DetailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _toastrService: NbToastrService,
     private _dialogService: NbDialogService,
+    private membersService: MembersService,
     @Optional() protected _dialogRef: NbDialogRef<any>,
+    @Optional() protected _dialogMemberRef: NbDialogRef<any>,
 
   ) {
     this.schoolForm = this.fb.group({
@@ -70,6 +79,174 @@ export class DetailComponent implements OnInit {
       })
   }
 
+  settings = {
+    mode: 'external',
+    actions: {
+      columnTitle: 'Acciones',
+      edit: false,
+      add: false,
+    },
+    delete: {
+      deleteButtonContent: '<i title="Eliminar" class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    rowClassFunction: (row) => {
+      if (row?.data?.active) {
+        return '';
+      } else {
+        return 'hide-action';
+      }
+    },
+    columns: {
+      names: {
+        title: "Nombres",
+        type: "string",
+      },
+      lastnames: {
+        title: "Apellidos",
+        type: "string",
+      },
+      phone: {
+        title: "Teléfono",
+        type: "string",
+      },
+      email: {
+        title: "Correo",
+        type: "string",
+      },
+      volunteer: {
+        title: 'Voluntario',
+        type: 'html',
+        width: '10%',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.volunteer;
+          if (handler) {
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+      },
+      active: {
+        title: 'Activo',
+        type: 'html',
+        width: '10%',
+        sortDirection: 'desc',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.active;
+          if (handler) {
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+
+      },
+
+    },
+  };
+  source: LocalDataSource = new LocalDataSource();
+  sourceMembersFiltered: LocalDataSource = new LocalDataSource();
+
+  settingsMembersFiltered = {
+    mode: 'external',
+    actions: {
+      columnTitle: 'Acciones',
+      delete: false,
+      add: false,
+    },
+    rowClassFunction: (row) => {
+      if (row?.data?.active) {
+        return '';
+      } else {
+        return 'hide-action';
+      }
+    },
+    edit: {
+      editButtonContent: '<i title="Asociar al curso" class="nb-plus"></i>',
+    },
+    columns: {
+      names: {
+        title: "Nombres",
+        type: "string",
+      },
+      lastnames: {
+        title: "Apellidos",
+        type: "string",
+      },
+      phone: {
+        title: "Teléfono",
+        type: "string",
+      },
+      email: {
+        title: "Correo",
+        type: "string",
+      },
+      volunteer: {
+        title: 'Voluntario',
+        type: 'html',
+        width: '10%',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.volunteer;
+          if (handler) {
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+      },
+      active: {
+        title: 'Activo',
+        type: 'html',
+        width: '10%',
+        sortDirection: 'desc',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.active;
+          if (handler) {
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+
+      },
+
+    },
+    pager: { perPage: 5 }
+  };
+
   ngOnInit(): void {
     this.doingSomething = true;
     this.activatedRoute.queryParams.pipe().subscribe(
@@ -82,7 +259,8 @@ export class DetailComponent implements OnInit {
           return;
         }
         if (this.action == 'edit' && this.schoolId) {
-          this.setMemberForm();
+          this.setSchoolForm();
+          this.setSchoolMembersTable();
         } else if (this.action == 'create') {
         }
       }
@@ -129,15 +307,37 @@ export class DetailComponent implements OnInit {
       { position, status });
   }
 
-  openLoading(dialog: TemplateRef<any>) {
+  openLoading() {
     this._dialogRef = this._dialogService.open(
-      dialog, {
+      this.dialog, {
       closeOnBackdropClick: false, closeOnEsc: false, context: { title: 'Ejecutando acción' }
     });
   }
 
   closeLoading() {
-    this._dialogRef.close();
+    if (this._dialogRef) {
+      this._dialogRef.close();
+    }
+  }
+
+  openMemberDialog() {
+    this.cleanDialogs();
+    this.loadingMemberData = true;
+    this._dialogRef = this._dialogService.open(
+      this.dialog_member, {
+      closeOnBackdropClick: true, closeOnEsc: true, context: {}, hasScroll: true,
+    });
+    this.membersService.getAllMembers({ page: 1, perPage: -1 }).subscribe(membersData => {
+      this.sourceMembersFiltered.load(membersData.data);
+      this.loadingMemberData = false;
+
+    })
+  }
+
+  closeMemberDialog() {
+    if (this._dialogMemberRef) {
+      this._dialogMemberRef.close();
+    }
   }
 
   goList() {
@@ -157,7 +357,20 @@ export class DetailComponent implements OnInit {
     this.closeLoading();
   }
 
-  setMemberForm() {
+  cleanDialogs() {
+    this.closeLoading();
+    this.closeMemberDialog();
+  }
+
+  cleanApiValitators() {
+    this.apiErrorMessage = '';
+    this.apiError = false;
+    this.apiSuccess = false;
+    this.apiErrorMember = false;
+    this.apiSuccessMember = false;
+  }
+
+  setSchoolForm() {
     this.schoolService.getSchool(this.schoolId).subscribe(school => {
       debugger
       this.schoolForm.patchValue({
@@ -169,6 +382,20 @@ export class DetailComponent implements OnInit {
       })
       this.schoolForm.updateValueAndValidity();
       this.schoolForm.markAllAsTouched();
+    })
+  }
+
+  setSchoolMembersTable() {
+    this.schoolService.getEnrollmentCourses(this.schoolId).subscribe(enrollmentCourses => {
+      this.source.load(enrollmentCourses.map(en => ({
+        ...en,
+        names: en.member.names,
+        lastnames: en.member.lastnames,
+        phone: en.member.phone,
+        email: en.member.email,
+        volunteer: en.member.volunteer,
+        active: en.member.active
+      })));
     })
   }
 
@@ -205,11 +432,56 @@ export class DetailComponent implements OnInit {
     return forkJoin(params);
   }
 
+  onEdit(ev: any) {
+    this.router.navigate(['pages/members/detail'], { queryParams: { action: 'edit', id: ev.data.id } });
+  }
+
+  onAdd(ev: any) {
+    this.openMemberDialog();
+  }
+
+  onDelete(ev: any) {
+    if (!window.confirm(`Esta seguro de querer eliminar el miembro: ${ev.data?.member?.names} ?`)) {
+      return;
+    }
+    this.schoolService.deleteEnrollmentCourses(ev.data.id).subscribe(deleted => {
+      this.showToast(`Acción ejecutada!`, 'top-right', 'success');
+      this.setSchoolMembersTable();
+    })
+  }
+
+  onAddMemberFiltered(ev: any) {
+    this.cleanDialogs();
+    this.cleanApiValitators()
+    this.openLoading();
+    this.schoolService.addEnrollmentCourses({
+      courseId: parseInt(this.schoolId),
+      memberId: ev?.data?.id,
+      state: 'activa'
+    }).subscribe(data => {
+      this.apiSuccessMember = true;
+      this.setSchoolMembersTable();
+    }, error => {
+      this.apiErrorMember = true;
+      this.apiErrorMessage = error;
+    })
+  }
+
+  validateApi() {
+    return (!this.apiSuccess && !this.apiError) && (!this.apiSuccessMember && !this.apiErrorMember)
+  }
+
+  validateApiSuccess() {
+    return (this.apiSuccess) || (this.apiSuccessMember);
+  }
+
+  validateApiError() {
+    return (this.apiError) || (this.apiErrorMember);
+  }
+
   submit() {
-    this.apiSuccess = false;
-    this.apiError = false;
-    this.apiErrorMessage = '';
-    this.openLoading(this.dialog);
+    this.cleanApiValitators();
+    this.openLoading();
     const schoolDTO: SchoolsRequestDTO = SchoolMapper.toRequestDTO(this.schoolForm.value as SchoolForm);
 
     if (this.action == 'edit') {
