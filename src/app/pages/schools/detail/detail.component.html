@@ -70,17 +70,24 @@
 
   <nb-card *ngIf="action == 'edit'">
     <nb-card-header>
-      <div style="text-align: center;">
-        Miembros inscritos
-      </div>
-      <div>
-        <button type="submit" nbButton (click)="openMemberDialog()">Añadir miembro</button>
-      </div>
+
     </nb-card-header>
     <nb-card-body>
-      <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (create)="onAdd($event)"
-        (delete)="onDelete($event)">
-      </ng2-smart-table>
+      <nb-tabset fullWidth>
+        <nb-tab tabTitle="Miembros inscritos">
+          <div class="botton-separator">
+            <button type="submit" nbButton (click)="openMemberDialog()">Añadir miembro</button>
+          </div>
+          <ng2-smart-table [settings]="settings" [source]="source" (edit)="onEdit($event)" (create)="onAdd($event)"
+            (delete)="onDelete($event)">
+          </ng2-smart-table>
+        </nb-tab>
+        <nb-tab tabTitle="Clases">
+          <ng2-smart-table [settings]="settingsClasses" [source]="sourceClasses">
+          </ng2-smart-table>
+        </nb-tab>
+      </nb-tabset>
+
     </nb-card-body>
   </nb-card>
 

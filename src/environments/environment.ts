@@ -12,14 +12,5 @@ export const environment = {
   production: false,
   micasa: {
     urlApi: 'https://serverlessmicasamed.azurewebsites.net/api',
-    endpointSchools :'/courses',
-    endpointenrollmentCoursesByCourseId :'/enrollmentCourses/byCourseId',
-    endpointenrollmentCourses :'/enrollmentCourses',
-    endpointMembers: '/members',
-    endpointMunicipalities: '/selectors/municipalities',
-    endpointOccupations: '/selectors/occupations',
-    endpointSocialNetworks: '/selectors/social-networks',
-    endpointHowKnow: '/selectors/how-know',
-    endpointSteps: '/selectors/steps',
   }
 };

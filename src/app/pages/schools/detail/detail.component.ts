@@ -161,9 +161,6 @@ export class DetailComponent implements OnInit {
 
     },
   };
-  source: LocalDataSource = new LocalDataSource();
-  sourceMembersFiltered: LocalDataSource = new LocalDataSource();
-
   settingsMembersFiltered = {
     mode: 'external',
     actions: {
@@ -246,6 +243,73 @@ export class DetailComponent implements OnInit {
     },
     pager: { perPage: 5 }
   };
+  settingsClasses = {
+    mode: 'external',
+    actions: {
+      columnTitle: 'Acciones',
+      delete: false,
+      add: false,
+      edit: false,
+    },
+    rowClassFunction: (row) => {
+      if (row?.data?.active) {
+        return '';
+      } else {
+        return 'hide-action';
+      }
+    },
+    columns: {
+      numberClass: {
+        title: "Número de clase",
+        type: "string",
+        width: '10%',
+      },
+      topicName: {
+        title: "Topico",
+        type: "string",
+      },
+      classDate: {
+        title: "Fecha",
+        type: "string",
+        width: '20%',
+        valuePrepareFunction: (cell, row) => {
+          const date = new Date(row.classDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
+      },
+      active: {
+        title: 'Activo',
+        type: 'html',
+        width: '10%',
+        sortDirection: 'desc',
+        valuePrepareFunction: (cell, row) => {
+          let handler = row.active;
+          if (handler) {
+            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
+          } else {
+            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
+          }
+        },
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear',
+          },
+        },
+
+      },
+
+    },
+    pager: { perPage: 5 }
+  };
+  source: LocalDataSource = new LocalDataSource();
+  sourceMembersFiltered: LocalDataSource = new LocalDataSource();
+  sourceClasses: LocalDataSource = new LocalDataSource();
 
   ngOnInit(): void {
     this.doingSomething = true;
@@ -261,6 +325,7 @@ export class DetailComponent implements OnInit {
         if (this.action == 'edit' && this.schoolId) {
           this.setSchoolForm();
           this.setSchoolMembersTable();
+          this.setSchoolClassTable();
         } else if (this.action == 'create') {
         }
       }
@@ -395,6 +460,19 @@ export class DetailComponent implements OnInit {
         email: en.member.email,
         volunteer: en.member.volunteer,
         active: en.member.active
+      })));
+    })
+  }
+
+  setSchoolClassTable() {
+    this.schoolService.getClassCourses(this.schoolId).subscribe(classes => {
+      this.sourceClasses.load(classes.map(cl => ({
+        ...cl,
+        topicName: cl.topicId.topic,
+        courseName: cl.courseId.name,
+        courseStartDate: cl.courseId.startDate,
+        courseEndDate: cl.courseId.endDate,
+        courseActive: cl.courseId.active
       })));
     })
   }

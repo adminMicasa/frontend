@@ -17,7 +17,7 @@ export class MembersService {
 
   getMember(id: string | number) {
     return this.http.get<Member>(
-      environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id,
+      environment.micasa.urlApi + '/members/' + id,
     ).pipe(
       retry(2),
       delay(500),
@@ -26,7 +26,7 @@ export class MembersService {
 
   getAllMembers(pagination: PageFilter) {
     return this.http.get<AllMembersResponseDto>(
-      environment.micasa.urlApi + environment.micasa.endpointMembers,
+      environment.micasa.urlApi + '/members',
       {
         params: {
           ...pagination
@@ -40,20 +40,20 @@ export class MembersService {
 
   createMember(member: MemberRequestDTO) {
     return this.http.post<Member>(
-      environment.micasa.urlApi + environment.micasa.endpointMembers,
+      environment.micasa.urlApi + '/members',
       member
     )
   }
 
   updateMember(memberId: string | number, member: MemberRequestDTO) {
     return this.http.put<Member>(
-      environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + memberId,
+      environment.micasa.urlApi + '/members/' + memberId,
       member
     )
   }
 
-  deleteMember(id: number) {
-    return this.http.delete<any>(environment.micasa.urlApi + environment.micasa.endpointMembers + '/' + id
+  deleteMember(memberId: number) {
+    return this.http.delete<any>(environment.micasa.urlApi + '/members/' + memberId
     );
   }
 

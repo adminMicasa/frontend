@@ -17,7 +17,7 @@ export class SelectorsService {
 
   getAllMunicipalities() {
     return this.http.get<AllSelectorsResponse>(
-      environment.micasa.urlApi + environment.micasa.endpointMunicipalities
+      environment.micasa.urlApi + '/selectors/municipalities'
     ).pipe(
       retry(2),
       delay(500),
@@ -26,7 +26,7 @@ export class SelectorsService {
 
   getAllOccupations() {
     return this.http.get<AllSelectorsResponse>(
-      environment.micasa.urlApi + environment.micasa.endpointOccupations
+      environment.micasa.urlApi + '/selectors/occupations'
     ).pipe(
       retry(2),
       delay(500),
@@ -35,7 +35,7 @@ export class SelectorsService {
 
   getAllSocialNetworks() {
     return this.http.get<AllSelectorsResponse>(
-      environment.micasa.urlApi + environment.micasa.endpointSocialNetworks
+      environment.micasa.urlApi + '/selectors/social-networks'
     ).pipe(
       retry(2),
       delay(500),
@@ -44,7 +44,7 @@ export class SelectorsService {
 
   getAllHowKnow() {
     return this.http.get<AllSelectorsResponse>(
-      environment.micasa.urlApi + environment.micasa.endpointHowKnow
+      environment.micasa.urlApi + '/selectors/how-know'
     ).pipe(
       retry(2),
       delay(500),
@@ -57,7 +57,7 @@ export class SelectorsService {
 
   getAllSteps() {
     return this.http.get<AllStepResponse>(
-      environment.micasa.urlApi + environment.micasa.endpointSteps
+      environment.micasa.urlApi + '/selectors/steps'
     ).pipe(
       retry(2),
       delay(500),
