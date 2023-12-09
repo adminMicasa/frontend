@@ -280,30 +280,6 @@ export class DetailComponent implements OnInit {
           return `${year}-${month}-${day}`
         }
       },
-      active: {
-        title: 'Activo',
-        type: 'html',
-        width: '10%',
-        sortDirection: 'desc',
-        valuePrepareFunction: (cell, row) => {
-          let handler = row.active;
-          if (handler) {
-            return `<div class="text-center"> <i  class="fas fa-check-circle btn-success"></i> </div>`
-          } else {
-            return ` <div  class="text-center"> <i class="fas fa-times-circle btn-danger" ></i> </div>`
-          }
-        },
-        filter: {
-          type: 'checkbox',
-          config: {
-            true: 'true',
-            false: 'false',
-            resetText: 'clear',
-          },
-        },
-
-      },
-
     },
     pager: { perPage: 5 }
   };
@@ -472,7 +448,6 @@ export class DetailComponent implements OnInit {
         courseName: cl.courseId.name,
         courseStartDate: cl.courseId.startDate,
         courseEndDate: cl.courseId.endDate,
-        courseActive: cl.courseId.active
       })));
     })
   }
