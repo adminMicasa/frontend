@@ -416,8 +416,8 @@ export class DetailComponent implements OnInit {
       debugger
       this.schoolForm.patchValue({
         name: school.name,
-        startDate: new Date(school.startDate),
-        endDate: new Date(school.endDate),
+        startDate: school.startDate ? new Date(school.startDate) : null,
+        endDate: school.endDate ? new Date(school.endDate) : null,
         step: school.step,
         active: school.active,
       })

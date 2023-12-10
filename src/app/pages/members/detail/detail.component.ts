@@ -71,6 +71,8 @@ export class DetailComponent implements OnInit {
       occupation: new FormControl<number | Selector | null>(null, Validators.required),
       socialNetwork: new FormControl<number | Selector | null>(null, Validators.required),
       howKnow: new FormControl<number | Selector | null>(null, Validators.required),
+      arrivalDate: new FormControl<string | null | Date>(null),
+      comment: [""],
       active: [true, Validators.required],
     });
 
@@ -158,6 +160,8 @@ export class DetailComponent implements OnInit {
         occupation: member.occupation,
         socialNetwork: member.socialNetwork,
         howKnow: member.howKnow,
+        arrivalDate: member.arrivalDate ? new Date(member.arrivalDate) : null,
+        comment: member.comment,
         active: member.active,
       })
       this.memberForm.updateValueAndValidity();

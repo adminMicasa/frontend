@@ -16,6 +16,8 @@ export interface Member {
   occupation: number | Selector | null;
   socialNetwork: number | Selector | null;
   howKnow: number | Selector | null;
+  arrivalDate: string | Date;
+  comment: string;
   active: boolean;
 }
 

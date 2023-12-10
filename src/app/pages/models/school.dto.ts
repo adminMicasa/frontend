@@ -21,9 +21,9 @@ export class SchoolMapper {
     const request: SchoolsRequestDTO = new SchoolsRequestDTO();
     request.name = school.name;
     request.stepId = (school.step as Step).id;
-    request.startDate = formatISO(school.startDate as Date, { representation: 'complete' }),
-      request.endDate = formatISO(school.endDate as Date, { representation: 'complete' }),
-      request.active = school.active;
+    request.startDate = school.startDate ? formatISO(school.startDate as Date, { representation: 'complete' }) : null;
+    request.endDate = school.endDate ? formatISO(school.endDate as Date, { representation: 'complete' }) : null;
+    request.active = school.active;
     return request;
   }
 

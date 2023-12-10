@@ -6,7 +6,7 @@ import { MembersComponent } from './members.component';
 import { MembersRoutingModule } from './members-routing.module';
 import { DetailComponent } from './detail/detail.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule, NbAutocompleteModule, NbFormFieldModule, NbRadioModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule, NbAutocompleteModule, NbFormFieldModule, NbRadioModule, NbSpinnerModule, NbTooltipModule, NbDatepickerModule } from '@nebular/theme';
 import { FormsModule as ngFormsModule } from '@angular/forms';
 import { NbButtonModule, NbCheckboxModule } from '@nebular/theme';
 import { MembersService } from '../services/members.service';
@@ -34,6 +34,7 @@ import { MembersService } from '../services/members.service';
     NbRadioModule,
     NbSpinnerModule,
     NbTooltipModule,
+    NbDatepickerModule,
   ],
   providers: [
     MembersService
