@@ -8,7 +8,7 @@ import { NbSidebarService } from '@nebular/theme';
   styleUrls: ['pages.component.scss'],
   template: `
     <ngx-one-column-layout>
-      <nb-menu (click)="clickMenu()" [items]="menu"></nb-menu>
+      <nb-menu (mouseover)="expandMenu()" (mouseout)="compactMenu()" (click)="clickMenu(true)" [items]="menu"></nb-menu>
       <router-outlet ></router-outlet>
     </ngx-one-column-layout>
   `,
@@ -19,8 +19,16 @@ export class PagesComponent {
 
   constructor(private sidebarService: NbSidebarService) { }
 
-  clickMenu() {
-    this.sidebarService.toggle(true, 'menu-sidebar');
-
+  clickMenu(compact) {
+    this.sidebarService.toggle(compact, 'menu-sidebar');
   }
+
+  compactMenu(){
+    this.sidebarService.compact('menu-sidebar');
+  }
+
+  expandMenu(){
+    this.sidebarService.expand('menu-sidebar');
+  }
+
 }
