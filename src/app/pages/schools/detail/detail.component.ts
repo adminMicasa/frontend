@@ -273,6 +273,9 @@ export class DetailComponent implements OnInit {
         type: "string",
         width: '20%',
         valuePrepareFunction: (cell, row) => {
+          if (!row.classDate) {
+            return ``
+          }
           const date = new Date(row.classDate);
           const year = date.getFullYear();
           const month = (date.getMonth() + 1).toString().padStart(2, '0');

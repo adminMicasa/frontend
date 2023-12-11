@@ -50,6 +50,20 @@ export class AllComponent implements OnInit {
         title: "Correo",
         type: "string",
       },
+      arrivalDate: {
+        title: "Fecha de llegada",
+        type: "string",
+        valuePrepareFunction: (cell, row) => {
+          if (!row.arrivalDate) {
+            return ``
+          }
+          const date = new Date(row.arrivalDate);
+          const year = date.getFullYear();
+          const month = (date.getMonth() + 1).toString().padStart(2, '0');
+          const day = date.getDate().toString().padStart(2, '0');
+          return `${year}-${month}-${day}`
+        }
+      },
       active: {
         title: 'Activo',
         type: 'html',

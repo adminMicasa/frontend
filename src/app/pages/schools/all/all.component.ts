@@ -44,6 +44,9 @@ export class AllComponent {
         title: "Fecha de inicio",
         type: "string",
         valuePrepareFunction: (cell, row) => {
+          if (!row.startDate) {
+            return ``
+          }
           const date = new Date(row.startDate);
           const year = date.getFullYear();
           const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -55,6 +58,9 @@ export class AllComponent {
         title: "Fecha de finalización",
         type: "string",
         valuePrepareFunction: (cell, row) => {
+          if (!row.endDate) {
+            return ``
+          }
           const date = new Date(row.endDate);
           const year = date.getFullYear();
           const month = (date.getMonth() + 1).toString().padStart(2, '0');
